@@ -4,6 +4,7 @@
 // ================================================
 session_start();
 require_once 'connect.php';
+require_once 'cloudinary_config.php';
 
 // Auth check — ต้องล็อกอินเป็น admin
 if (!isset($_SESSION['admin_id'])) {
@@ -73,18 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     // News: add
     if ($_POST['action'] === 'add_news') {
         try {
-            $image = '';
-            if (!empty($_FILES['news_image']['tmp_name'])) {
-                $uploadDir = 'uploads/news/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-                $allowed_types = ['image/jpeg','image/jpg','image/png','image/webp','image/gif'];
-                $f = $_FILES['news_image'];
-                if ($f['error'] === UPLOAD_ERR_OK && in_array($f['type'], $allowed_types) && $f['size'] <= 5*1024*1024) {
-                    $ext   = pathinfo($f['name'], PATHINFO_EXTENSION);
-                    $fname = 'news_'.time().'_0.'.$ext;
-                    if (move_uploaded_file($f['tmp_name'], $uploadDir.$fname)) $image = $uploadDir.$fname;
-                }
-            }
+            $image = handleImageUpload('news_image', 'pawland/news');
             $pdo->prepare("INSERT INTO news (badge,title,description,highlights_title,highlights,source,image,reverse_layout,status) VALUES (?,?,?,?,?,?,?,?,?)")
                 ->execute([
                     trim($_POST['badge']            ?? ''),
@@ -130,21 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         try {
             $nid = (int)$_POST['news_id'];
             $row = $pdo->prepare("SELECT image FROM news WHERE id=?"); $row->execute([$nid]); $old = $row->fetch();
-            $image = $old['image'] ?? '';
-            if (!empty($_FILES['news_image']['tmp_name'])) {
-                $uploadDir = 'uploads/news/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-                $allowed_types = ['image/jpeg','image/jpg','image/png','image/webp','image/gif'];
-                $f = $_FILES['news_image'];
-                if ($f['error'] === UPLOAD_ERR_OK && in_array($f['type'], $allowed_types) && $f['size'] <= 5*1024*1024) {
-                    $ext   = pathinfo($f['name'], PATHINFO_EXTENSION);
-                    $fname = 'news_'.$nid.'_'.time().'.'.$ext;
-                    if (move_uploaded_file($f['tmp_name'], $uploadDir.$fname)) {
-                        if ($image && str_starts_with($image,'uploads/') && file_exists($image)) unlink($image);
-                        $image = $uploadDir.$fname;
-                    }
-                }
-            }
+            $image = handleImageUpload('news_image', 'pawland/news', $old['image'] ?? '');
             $pdo->prepare("UPDATE news SET badge=?,title=?,description=?,highlights_title=?,highlights=?,source=?,image=?,reverse_layout=?,status=?,updated_at=NOW() WHERE id=?")
                 ->execute([
                     trim($_POST['badge']            ?? ''),
@@ -178,18 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     // ── Events: add ──────────────────────────────────────────────────────────
     if ($_POST['action'] === 'add_event') {
         try {
-            $image = '';
-            if (!empty($_FILES['event_image']['tmp_name'])) {
-                $uploadDir = 'uploads/events/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-                $allowed_types = ['image/jpeg','image/jpg','image/png','image/webp','image/gif'];
-                $f = $_FILES['event_image'];
-                if ($f['error'] === UPLOAD_ERR_OK && in_array($f['type'], $allowed_types) && $f['size'] <= 5*1024*1024) {
-                    $ext   = pathinfo($f['name'], PATHINFO_EXTENSION);
-                    $fname = 'event_'.time().'_0.'.$ext;
-                    if (move_uploaded_file($f['tmp_name'], $uploadDir.$fname)) $image = $uploadDir.$fname;
-                }
-            }
+            $image = handleImageUpload('event_image', 'pawland/events');
             $pdo->prepare("INSERT INTO events (title,date_start,date_end,location,description,tags,image,link_url,status,featured) VALUES (?,?,?,?,?,?,?,?,?,?)")
                 ->execute([
                     trim($_POST['title']       ?? ''),
@@ -221,21 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         try {
             $eid   = (int)$_POST['event_id'];
             $row   = $pdo->prepare("SELECT image FROM events WHERE id=?"); $row->execute([$eid]); $old = $row->fetch();
-            $image = $old['image'] ?? '';
-            if (!empty($_FILES['event_image']['tmp_name'])) {
-                $uploadDir = 'uploads/events/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-                $allowed_types = ['image/jpeg','image/jpg','image/png','image/webp','image/gif'];
-                $f = $_FILES['event_image'];
-                if ($f['error'] === UPLOAD_ERR_OK && in_array($f['type'], $allowed_types) && $f['size'] <= 5*1024*1024) {
-                    $ext   = pathinfo($f['name'], PATHINFO_EXTENSION);
-                    $fname = 'event_'.$eid.'_'.time().'.'.$ext;
-                    if (move_uploaded_file($f['tmp_name'], $uploadDir.$fname)) {
-                        if ($image && str_starts_with($image,'uploads/') && file_exists($image)) unlink($image);
-                        $image = $uploadDir.$fname;
-                    }
-                }
-            }
+            $image = handleImageUpload('event_image', 'pawland/events', $old['image'] ?? '');
             $pdo->prepare("UPDATE events SET title=?,date_start=?,date_end=?,location=?,description=?,tags=?,image=?,link_url=?,status=?,featured=?,updated_at=NOW() WHERE id=?")
                 ->execute([
                     trim($_POST['title']       ?? ''),
@@ -289,20 +240,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = $pdo->prepare("SELECT place_image, all_images FROM places WHERE place_id=?");
         $row->execute([$pid]); $place = $row->fetch();
         if (!$place) { echo json_encode(['ok'=>false,'msg'=>'ไม่พบสถานที่']); exit; }
-        $uploadDir = 'uploads/places/';
-        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-        $allowed  = ['image/jpeg','image/jpg','image/png','image/webp','image/avif','image/gif'];
         $uploaded = []; $errors = [];
         $files = $_FILES['images'] ?? [];
         $count = is_array($files['name']) ? count($files['name']) : 0;
+        $allowed  = ['image/jpeg','image/jpg','image/png','image/webp','image/avif','image/gif'];
         for ($i=0; $i<$count; $i++) {
             if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
             if ($files['size'][$i] > 5*1024*1024) { $errors[] = $files['name'][$i].' เกิน 5MB'; continue; }
             if (!in_array($files['type'][$i], $allowed)) { $errors[] = $files['name'][$i].' ไม่รองรับ'; continue; }
-            $ext  = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
-            $name = 'place_admin_'.$pid.'_'.time().'_'.$i.'.'.$ext;
-            $dest = $uploadDir.$name;
-            if (move_uploaded_file($files['tmp_name'][$i], $dest)) $uploaded[] = $dest;
+            $url = cloudinaryUpload($files['tmp_name'][$i], 'pawland/places');
+            if ($url) $uploaded[] = $url;
             else $errors[] = 'อัปโหลด '.$files['name'][$i].' ไม่สำเร็จ';
         }
         if (!empty($uploaded)) {
@@ -418,8 +365,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($_FILES['images']['name'][0])) {
                 $row = $pdo->prepare("SELECT place_image, all_images FROM places WHERE place_id=?");
                 $row->execute([$pid]); $place = $row->fetch();
-                $uploadDir = 'uploads/places/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
                 $allowed  = ['image/jpeg','image/jpg','image/png','image/webp','image/avif','image/gif'];
                 $newImgs  = [];
                 $files    = $_FILES['images']; $count = count($files['name']);
@@ -427,9 +372,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
                     if ($files['size'][$i]  > 5*1024*1024) continue;
                     if (!in_array($files['type'][$i], $allowed)) continue;
-                    $ext  = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
-                    $dest = $uploadDir.'place_admin_'.$pid.'_'.time().'_'.$i.'.'.$ext;
-                    if (move_uploaded_file($files['tmp_name'][$i], $dest)) $newImgs[] = $dest;
+                    $url = cloudinaryUpload($files['tmp_name'][$i], 'pawland/places');
+                    if ($url) $newImgs[] = $url;
                 }
                 if ($newImgs) {
                     $existing  = !empty($place['all_images']) ? array_filter(array_map('trim',explode(',',$place['all_images']))) : [];
@@ -481,17 +425,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mainImage = ''; $allImages = [];
             if (!empty($_FILES['images']['name'][0])) {
-                $uploadDir = 'uploads/places/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
                 $allowed = ['image/jpeg','image/jpg','image/png','image/webp','image/avif','image/gif'];
                 $files = $_FILES['images']; $count = count($files['name']);
                 for ($i = 0; $i < $count; $i++) {
                     if ($files['error'][$i] !== UPLOAD_ERR_OK) continue;
                     if ($files['size'][$i]  > 5*1024*1024) continue;
                     if (!in_array($files['type'][$i], $allowed)) continue;
-                    $ext  = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
-                    $dest = $uploadDir.'place_admin_'.$newId.'_'.time().'_'.$i.'.'.$ext;
-                    if (move_uploaded_file($files['tmp_name'][$i], $dest)) $allImages[] = $dest;
+                    $url = cloudinaryUpload($files['tmp_name'][$i], 'pawland/places');
+                    if ($url) $allImages[] = $url;
                 }
                 if ($allImages) {
                     $mainImage = $allImages[0];
