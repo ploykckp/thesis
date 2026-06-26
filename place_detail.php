@@ -5,12 +5,7 @@
 session_start();
 
 // เชื่อมต่อ DB โดยตรง (ไม่ผ่าน connect file เพื่อป้องกัน die() ทำลาย session/output)
-$pdo = null;
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=pawland;charset=utf8', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) { $pdo = null; }
+require_once 'connect.php';
 
 $id    = (int)($_GET['id'] ?? 0);
 
@@ -52,7 +47,7 @@ if ($pdo && $id > 0) {
         $sessKey = 'viewed_place_' . $id;
         if (empty($_SESSION[$sessKey])) {
             $ip = $_SERVER['REMOTE_ADDR'] ?? '';
-            $vStmt = $pdo->prepare("INSERT INTO place_views (place_id, viewer_ip, viewed_at) VALUES (?, ?, NOW())");
+            $vStmt = $pdo->prepare("INSERT INTO place_views (place_id, viewer_ip, viewed_at) VALUES (?, ?, CURRENT_TIMESTAMP)");
             $vStmt->execute([$id, $ip]);
             $_SESSION[$sessKey] = true;
         }
