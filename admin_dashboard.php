@@ -526,14 +526,21 @@ $allReviews   = [];
 $reviewPending  = [];
 $reviewApproved = [];
 $reviewRejected = [];
+$filterMode   = 'month';
+$filterMonth  = 0;
+$filterYear   = 0;
+$YEAR_START_CE = 2026;
+$totalUsersFiltered = 0;
+$categoryData = [];
+$categoryDataJson = '[]';
 
 if ($pdo) {
     try {
         // place status counts (from places table)
         $placeRow = $pdo->query("SELECT
-            SUM(status='approved') AS approved,
-            SUM(status='pending'  OR status IS NULL OR status='') AS pending,
-            SUM(status='rejected') AS rejected
+            SUM(CASE WHEN status='approved' THEN 1 ELSE 0 END) AS approved,
+            SUM(CASE WHEN status='pending' OR status IS NULL OR status='' THEN 1 ELSE 0 END) AS pending,
+            SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) AS rejected
             FROM places")->fetch();
         $cntApproved = (int)($placeRow['approved'] ?? 0);
         $cntPending  = (int)($placeRow['pending']  ?? 0);
@@ -545,9 +552,9 @@ if ($pdo) {
 
         // operator (account_entre) status counts
         $entreRow = $pdo->query("SELECT
-            SUM(approval_status='approved') AS approved,
-            SUM(approval_status='pending' OR approval_status IS NULL OR approval_status='') AS pending,
-            SUM(approval_status='rejected') AS rejected
+            SUM(CASE WHEN approval_status='approved' THEN 1 ELSE 0 END) AS approved,
+            SUM(CASE WHEN approval_status='pending' OR approval_status IS NULL OR approval_status='' THEN 1 ELSE 0 END) AS pending,
+            SUM(CASE WHEN approval_status='rejected' THEN 1 ELSE 0 END) AS rejected
             FROM account_entre")->fetch();
         $entreCntApproved = (int)($entreRow['approved'] ?? 0);
         $entreCntPending  = (int)($entreRow['pending']  ?? 0);

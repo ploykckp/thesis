@@ -32,7 +32,7 @@ session_start();
                 
                 <!-- Password Input -->
                 <div class="input-group">
-                    <input name="password_account" id="password" class="input-field" placeholder="รหัสผ่าน" required>
+                    <input name="password_account" id="password" type="password" class="input-field" placeholder="รหัสผ่าน" required>
                     <button type="button" class="toggle-password" onclick="togglePassword()">
                         <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>

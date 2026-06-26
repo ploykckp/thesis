@@ -8,7 +8,10 @@ $popular_places = [];
 if ($pdo) {
     try {
         $stmt = $pdo->query("
-            SELECT p.*,
+            SELECT p.place_id, p.place_name, p.category, p.place_image,
+                          p.province, p.pet_type_allowed, p.pet_size_allowed,
+                          p.description, p.all_images, p.amenities, p.pet_amenities,
+                          p.status, p.latitude, p.longitude,
                    COUNT(r.review_id)         AS review_count,
                    COALESCE(AVG(r.rating), 0) AS avg_rating
             FROM places p
@@ -16,7 +19,10 @@ if ($pdo) {
                    ON r.place_id = p.place_id
                   AND r.status   = 'approved'
             WHERE p.status = 'approved'
-            GROUP BY p.place_id
+            GROUP BY p.place_id, p.place_name, p.category, p.place_image,
+                     p.province, p.pet_type_allowed, p.pet_size_allowed,
+                     p.description, p.all_images, p.amenities, p.pet_amenities,
+                     p.status, p.latitude, p.longitude
             ORDER BY avg_rating DESC, review_count DESC, p.place_id DESC
             LIMIT 9
         ");
@@ -37,12 +43,12 @@ function renderStars(int $count = 4): string {
 }
 
 $fallback_imgs = [
-    'uploads/placeholder.jpg',
-    'uploads/placeholder.jpg',
-    'uploads/placeholder.jpg',
-    'uploads/placeholder.jpg',
-    'uploads/placeholder.jpg',
-    'uploads/placeholder.jpg',
+    'uploads/places_google/place_1_2.jpg',
+    'uploads/places_google/place_1_2.jpg',
+    'uploads/places_google/place_1_2.jpg',
+    'uploads/places_google/place_1_2.jpg',
+    'uploads/places_google/place_1_2.jpg',
+    'uploads/places_google/place_1_2.jpg',
 ];
 
 // ไม่ต้องใช้ proxy แล้ว เพราะรูปเป็น local file

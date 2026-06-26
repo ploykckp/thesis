@@ -10,11 +10,11 @@ $email_input    = trim($_POST['email_account']);
 $password_input = $_POST['password_account'];
 
 // 1. ตรวจสอบ account_user
-if ($connect) {
-    $email_esc   = mysqli_real_escape_string($connect, $email_input);
-    $result_user = mysqli_query($connect, "SELECT * FROM account_user WHERE email_account = '$email_esc' LIMIT 1");
-    if ($result_user && mysqli_num_rows($result_user) === 1) {
-        $user = mysqli_fetch_assoc($result_user);
+if ($pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM account_user WHERE email_account = :email LIMIT 1");
+    $stmt->execute([':email' => $email_input]);
+    $user = $stmt->fetch();
+    if ($user) {
         if (password_verify($password_input . ($user['salt_account'] ?? ''), $user['password_user'])) {
             $_SESSION['user_id']   = $user['user_id'];
             $_SESSION['email']     = $user['email_account'];

@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-// Direct DB connection
-$connect = mysqli_connect('localhost', 'root', '', 'pawland');
-if (!$connect) {
-    die("การเชื่อมต่อฐานข้อมูลล้มเหลว: " . mysqli_connect_error());
-}
-mysqli_set_charset($connect, 'utf8');
+require_once 'connect.php';
 
 // Redirect to login if not logged in
 if (!isset($_SESSION['user_id'])) {
@@ -19,12 +14,9 @@ $success_msg = '';
 $error_msg = '';
 
 // Fetch latest user data from DB
-$stmt = $connect->prepare("SELECT * FROM account_user WHERE user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-$stmt->close();
+$stmt = $pdo->prepare("SELECT * FROM account_user WHERE user_id = :uid");
+$stmt->execute([':uid' => $user_id]);
+$user = $stmt->fetch();
 
 if (!$user) {
     session_destroy();
@@ -62,9 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     if (empty($error_msg)) {
-        $upd = $connect->prepare("UPDATE account_user SET firstname_account=?, lastname_account=?, profile_images=? WHERE user_id=?");
-        $upd->bind_param("sssi", $firstname, $lastname, $profile_img, $user_id);
-        if ($upd->execute()) {
+        $upd = $pdo->prepare("UPDATE account_user SET firstname_account=:fn, lastname_account=:ln, profile_images=:img WHERE user_id=:uid");
+        if ($upd->execute([':fn'=>$firstname, ':ln'=>$lastname, ':img'=>$profile_img, ':uid'=>$user_id])) {
             // Update session
             $_SESSION['firstname'] = $firstname;
             $_SESSION['lastname']  = $lastname;
@@ -75,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         } else {
             $error_msg = 'เกิดข้อผิดพลาด กรุณาลองใหม่';
         }
-        $upd->close();
     }
 }
 
