@@ -1,0 +1,250 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit' , sans-serif;
+}
+
+body {
+    font-family: 'Kanit' , sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Login Box */
+.login-box {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Logo */
+.logo-container {
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+    display: inline-block;
+}
+
+/* Welcome Text */
+.welcome-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+/* Login Form */
+.login-form {
+    width: 100%;
+}
+
+/* Input Group */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Input Field */
+.input-field {
+    width: 100%;
+    padding: 16px 20px;
+    font-weight: 400;
+    font-size: 16px;
+    border: none;
+    background-color: #e8e8e8;
+    border-radius: 30px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.input-field:focus {
+    background-color: #d8d8d8;
+}
+
+.input-field::placeholder {
+    color: #666666;
+}
+
+/* Toggle Password Button */
+.toggle-password {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666666;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    color: #333333;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Forgot Password */
+.forgot-password {
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.forgot-link {
+    color: #666666;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #333333;
+}
+
+/* Login Button */
+.login-button {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #ffffff;
+    background-color: #123451;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 30px;
+}
+
+.login-button:hover {
+    background-color: #123451;
+    transform: translateY(-2px);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+/* Divider */
+.divider {
+    position: relative;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.divider-text {
+    position: relative;
+    display: inline-block;
+    padding: 0 20px;
+    background-color: #ffffff;
+    color: #666666;
+    font-size: 14px;
+    z-index: 1;
+}
+
+/* Register Section */
+.register-section {
+    margin-bottom: 20px;
+}
+
+.register-text {
+    color: #666666;
+    font-size: 14px;
+}
+
+.register-link {
+    color: #1e3a5f;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.register-link:hover {
+    color: #152d47;
+    text-decoration: underline;
+}
+
+/* Business Register */
+.business-register {
+    margin-top: 20px;
+}
+
+.business-link {
+    color: #123451;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.business-link:hover {
+    color: #333333;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 40px 30px;
+    }
+    
+    .logo {
+        max-width: 120px;
+    }
+    
+    .welcome-text {
+        font-size: 20px;
+    }
+    
+    .input-field {
+        padding: 14px 18px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+    }
+    
+    .logo {
+        max-width: 100px;
+    }
+    
+    .welcome-text {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+}

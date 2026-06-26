@@ -1,0 +1,428 @@
+/* ══════════════════════════════════════════
+   donation.css — Pawlands Donation Page Styles
+   Requires: home.css (base styles)
+══════════════════════════════════════════ */
+
+/* ── Hero Banner ── */
+.donation-hero {
+    width: 1260px;
+    max-width: 1260px;
+    margin: 0 auto 60px;
+    height: 420px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #123451 0%, #1e5f8c 50%, #2a7ab8 100%);
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.donation-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1400&h=500&fit=crop');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+}
+
+.donation-hero-content {
+    position: relative;
+    text-align: center;
+    padding: 40px;
+}
+
+.donation-hero-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.donation-hero-title {
+    font-size: 52px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.donation-hero-subtitle {
+    font-size: 22px;
+    font-weight: 300;
+    color: #C8E4FE;
+    letter-spacing: 0.5px;
+}
+
+/* ── Section Header ── */
+.donation-section-header {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 0 60px;
+}
+
+.donation-section-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.donation-section-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+/* ── Notice Banner ── */
+.donation-notice {
+    background: linear-gradient(135deg, #C8E4FE, #dff0ff);
+    border-left: 5px solid #123451;
+    border-radius: 12px;
+    padding: 24px 36px;
+    margin: 0 auto 60px;
+    max-width: 1100px;
+    width: calc(100% - 120px);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notice-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+}
+
+.notice-text h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a3a52;
+    margin-bottom: 6px;
+}
+
+.notice-text p {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ── Locations Wrapper ── */
+.locations-wrapper {
+    padding: 0 60px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+/* ── Location Card ── */
+.location-card {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.09);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.location-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(18, 52, 81, 0.15);
+}
+
+/* ── Card Header ── */
+.location-header {
+    background: #123451;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.location-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.location-number {
+    width: 52px;
+    height: 52px;
+    background: #C8E4FE;
+    color: #123451;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.location-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.location-badge {
+    background: rgba(200, 228, 254, 0.2);
+    border: 1px solid rgba(200, 228, 254, 0.4);
+    color: #C8E4FE;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+/* ── Image Gallery ── */
+.location-gallery {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
+    background: #1a3a52;
+}
+
+.gallery-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.gallery-slide {
+    min-width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Gallery Navigation Buttons ── */
+.gallery-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background: rgba(18, 52, 81, 0.75);
+    border: 2px solid rgba(200, 228, 254, 0.4);
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+.gallery-btn:hover {
+    background: rgba(18, 52, 81, 0.95);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-btn-prev { left: 16px; }
+.gallery-btn-next { right: 16px; }
+
+/* ── Gallery Dots ── */
+.gallery-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.gallery-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-dot.active {
+    background: #ffffff;
+    transform: scale(1.3);
+}
+
+/* ── Gallery Counter ── */
+.gallery-counter {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(18, 52, 81, 0.7);
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    z-index: 10;
+}
+
+/* ── Info Section ── */
+.location-info {
+    padding: 32px 36px;
+    background: #f8fbff;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.info-icon {
+    width: 36px;
+    height: 36px;
+    background: #C8E4FE;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #123451;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.info-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.info-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+    line-height: 1.5;
+}
+
+.info-value a {
+    color: #1e5f8c;
+    text-decoration: none;
+}
+
+.info-value a:hover {
+    text-decoration: underline;
+}
+
+/* ── Hours Badge ── */
+.hours-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #d4edda;
+    color: #155724;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ── Contact Action Buttons ── */
+.location-actions {
+    padding: 20px 36px 28px;
+    background: #f8fbff;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-top: 1px solid #e2ecf7;
+}
+
+.btn-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-contact-fb {
+    background: #1877f2;
+    color: white;
+}
+
+.btn-contact-fb:hover {
+    background: #0d65d8;
+    transform: translateY(-2px);
+}
+
+.btn-contact-tel {
+    background: #123451;
+    color: white;
+}
+
+.btn-contact-tel:hover {
+    background: #1e5071;
+    transform: translateY(-2px);
+}
+
+.btn-contact-map {
+    background: #e8f4fd;
+    color: #123451;
+    border: 1px solid #C8E4FE;
+}
+
+.btn-contact-map:hover {
+    background: #C8E4FE;
+    transform: translateY(-2px);
+}
+
+/* ══ Responsive ══ */
+@media (max-width: 1024px) {
+    .donation-hero {
+        width: 95%;
+        height: 320px;
+    }
+    .donation-hero-title { font-size: 38px; }
+    .locations-wrapper   { padding: 0 24px 60px; }
+    .donation-notice     { width: calc(100% - 48px); }
+}
+
+@media (max-width: 768px) {
+    .donation-hero-title    { font-size: 28px; }
+    .donation-hero-subtitle { font-size: 16px; }
+    .location-info          { grid-template-columns: 1fr; gap: 16px; }
+    .location-gallery       { aspect-ratio: 1 / 1; }
+    .location-header        { padding: 20px; }
+    .location-info          { padding: 20px; }
+    .location-actions       { padding: 16px 20px 20px; }
+    .donation-section-title { font-size: 32px; }
+}

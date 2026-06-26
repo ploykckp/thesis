@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>พอว์แลนด์ - เข้าสู่ระบบ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo" class="logo">
+            </div>
+            
+            <!-- Welcome Text -->
+            <h1 class="welcome-text">พอว์แลนด์...ยินดีต้อนรับ</h1>
+            
+            <!-- Error/Success Message -->
+            <div id="messageBox" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center;"></div>
+            
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+                <!-- Email Input -->
+                <div class="input-group">
+                    <input type="email" id="email" class="input-field" placeholder="อีเมล" required>
+                </div>
+                
+                <!-- Password Input -->
+                <div class="input-group">
+                    <input type="password" id="password" class="input-field" placeholder="รหัสผ่าน" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">
+                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Forgot Password -->
+                <div class="forgot-password">
+                    <a href="#" class="forgot-link">ลืมรหัสผ่าน</a>
+                </div>
+                
+                <!-- Login Button -->
+                <button type="submit" class="login-button">เข้าสู่ระบบ</button>
+            </form>
+            
+            <!-- Divider -->
+            <div class="divider">
+                <span class="divider-text">หรือ</span>
+            </div>
+            
+            <!-- Register Link -->
+            <div class="register-section">
+                <p class="register-text">
+                    ไม่มีสมาชิกใช่ไหม? <a href="register.html" class="register-link">ลงทะเบียน</a>
+                </p>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider">
+                <span class="divider-text">หรือ</span>
+            </div>
+            
+            <!-- Business Register -->
+            <div class="business-register">
+                <a href="business_register_updated.html" class="business-link">ลงทะเบียนผู้ประกอบการ</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showMessage('กรุณากรอกอีเมลและรหัสผ่าน', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('business_login_handler.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage(result.message, 'success');
+                    setTimeout(() => {
+                        window.location.href = 'home.html'; // Redirect to dashboard
+                    }, 1000);
+                } else {
+                    showMessage(result.message, 'error');
+                }
+            } catch (error) {
+                showMessage('เกิดข้อผิดพลาด: ' + error.message, 'error');
+            }
+        }
+
+        function showMessage(message, type) {
+            const box = document.getElementById('messageBox');
+            box.textContent = message;
+            box.style.display = 'block';
+            box.style.backgroundColor = type === 'success' ? '#d4edda' : '#f8d7da';
+            box.style.color = type === 'success' ? '#155724' : '#721c24';
+            box.style.border = `1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'}`;
+
+            setTimeout(() => {
+                box.style.display = 'none';
+            }, 5000);
+        }
+
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('check_session.php');
+                const result = await response.json();
+                
+                if (result.logged_in) {
+                    window.location.href = 'home.html';
+                }
+            } catch (error) {
+                console.log('Session check failed:', error);
+            }
+        });
+    </script>
+</body>
+</html>

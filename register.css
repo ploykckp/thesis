@@ -1,0 +1,196 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit' , sans-serif;
+}
+
+body {
+    font-family: 'Kanit' , sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.registration-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Styles */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 476px;
+    height: 476px;
+    max-width: 120px;
+    max-height: 120px;
+    object-fit: contain;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+/* Form Styles */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    border: none;
+    background-color: #e8e8e8;
+    border-radius: 25px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.form-input:focus {
+    background-color: #d8d8d8;
+}
+
+.form-input::placeholder {
+    color: #666;
+}
+
+/* Password Input Wrapper */
+.password-wrapper1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper2 {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper1 .form-input {
+    padding-right: 50px;
+}
+
+.password-wrapper2 .form-input {
+    padding-right: 50px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.eye-icon {
+    width: 22px;
+    height: 22px;
+}
+
+/* Button Styles */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 400;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #123451;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0f2a3d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(26, 58, 82, 0.3);
+}
+
+.btn-secondary {
+    background-color: #A9BCCE;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #8fa4b8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(168, 184, 200, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .registration-card {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .form-input {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+}

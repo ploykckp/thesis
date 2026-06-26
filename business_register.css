@@ -1,0 +1,520 @@
+/* ============================================================
+   business-register.css - Multi-step Business Registration
+   ============================================================ */
+
+/* ── Reset & Base ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* ── Container ── */
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* ── Registration Card ── */
+.registration-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Logo ── */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+/* ── Title ── */
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 32px;
+}
+
+/* ============================================================
+   STEP FORMS
+   ============================================================ */
+.step-form {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+.step-form.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Form Group ── */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* ── Text Input ── */
+.form-input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-family: 'Kanit', sans-serif;
+    border: none;
+    background-color: #e8e8e8;
+    border-radius: 25px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.form-input:focus {
+    background-color: #d8d8d8;
+}
+
+.form-input::placeholder {
+    color: #666;
+}
+
+/* ── Textarea ── */
+.form-textarea {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-family: 'Kanit', sans-serif;
+    border: none;
+    background-color: #e8e8e8;
+    border-radius: 20px;
+    outline: none;
+    resize: vertical;
+    min-height: 120px;
+    transition: background-color 0.3s ease;
+}
+
+.form-textarea:focus {
+    background-color: #d8d8d8;
+}
+
+.form-textarea::placeholder {
+    color: #666;
+}
+
+/* ============================================================
+   PASSWORD FIELD
+   ============================================================ */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper .form-input {
+    padding-right: 50px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.eye-icon {
+    width: 22px;
+    height: 22px;
+}
+
+/* ============================================================
+   CUSTOM DROPDOWN
+   ============================================================ */
+.custom-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.select-selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background-color: #e8e8e8;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-select.open .select-selected {
+    background-color: #d8d8d8;
+    border-radius: 25px 25px 0 0;
+}
+
+.select-placeholder {
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    color: #666;
+    flex: 1;
+}
+
+.select-placeholder.selected {
+    color: #333;
+}
+
+.select-arrow {
+    color: #666;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.custom-select.open .select-arrow {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Options */
+.select-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    z-index: 50;
+    overflow: hidden;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.custom-select.open .select-options {
+    display: block;
+}
+
+.select-option {
+    padding: 12px 18px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.select-option:hover {
+    background-color: #f0f0f0;
+}
+
+/* ============================================================
+   IMAGE UPLOAD SECTION
+   ============================================================ */
+.upload-section {
+    margin-top: 8px;
+}
+
+.section-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.image-preview-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.remove-image-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn-add-image {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #e8e8e8;
+    color: #333;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add-image:hover {
+    background-color: #d8d8d8;
+}
+
+/* ============================================================
+   GOOGLE MAPS BUTTON
+   ============================================================ */
+.btn-maps {
+    width: 100%;
+    padding: 14px 18px;
+    background-color: #ffffff;
+    border: 2px solid #e8e8e8;
+    border-radius: 25px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-maps:hover {
+    background-color: #f8f8f8;
+    border-color: #d0d0d0;
+}
+
+/* ============================================================
+   CONDITIONS SECTION (Step 3)
+   ============================================================ */
+.conditions-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 16px;
+}
+
+.section-sublabel {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Radio Group */
+.radio-group {
+    margin-bottom: 20px;
+}
+
+.radio-options {
+    display: flex;
+    gap: 20px;
+}
+
+.radio-options-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #123451;
+}
+
+.radio-label {
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Radio option with inline input */
+.radio-option-with-input {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.inline-input {
+    width: 80px;
+    padding: 6px 12px;
+    font-size: 15px;
+    font-family: 'Kanit', sans-serif;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    outline: none;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.inline-input:focus {
+    border-color: #123451;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Kanit', sans-serif;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #123451;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0f2a3d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(18, 52, 81, 0.3);
+}
+
+.btn-secondary {
+    background-color: #A9BCCE;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: #8fa4b8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(168, 184, 200, 0.3);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 16px;
+    }
+
+    .registration-card {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .form-input,
+    .form-textarea {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .image-preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .radio-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

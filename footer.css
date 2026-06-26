@@ -1,0 +1,130 @@
+/* ══════════════════════════════════════════
+   FOOTER — shared across all pages
+   The <footer> must sit OUTSIDE any .container
+   so its background-color spans 100vw.
+══════════════════════════════════════════ */
+
+.footer {
+    background-color: #123451;
+    width: 100%;
+    color: white;
+    min-height: 341px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 80px;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    padding: 60px 80px 40px 80px;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.footer-logo img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.footer-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.15);
+}
+
+.social-icon .iconify {
+    font-size: 24px;
+    color: #123451;
+}
+
+.footer-divider {
+    width: 3px;
+    height: 180px;
+    background-color: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+}
+
+.footer-right {
+    font-size: 16px;
+    line-height: 1.8;
+    color: white;
+}
+
+.footer-right p {
+    margin-bottom: 6px;
+}
+
+.footer-copyright {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+    .footer-container {
+        gap: 40px;
+        padding: 40px;
+    }
+    .footer-logo img { width: 140px; height: 140px; }
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 30px;
+    }
+    .footer-divider {
+        width: 180px;
+        height: 3px;
+    }
+    .footer-right { text-align: center; }
+    .social-icons { justify-content: center; }
+    .footer-logo img { width: 120px; height: 120px; }
+}
