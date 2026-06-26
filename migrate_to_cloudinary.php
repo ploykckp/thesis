@@ -1,4 +1,6 @@
 <?php
+set_time_limit(0);
+ini_set("max_execution_time", 0);
 // ============================================================
 // migrate_to_cloudinary.php
 // วาง script นี้ที่ root ของ Pawland แล้วเปิดใน browser

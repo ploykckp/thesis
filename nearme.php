@@ -61,7 +61,7 @@ $placesJson = json_encode(array_map(function($p) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv4OB-oXGw-sb2tGpF5yPOyK2tchEc2y0&v=beta&libraries=marker"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3H13UP43DsR6ED2NWaQXK9VaUqSKcCTA&v=beta&libraries=marker"></script>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="nearme.css">
     <link rel="stylesheet" href="footer.css">
