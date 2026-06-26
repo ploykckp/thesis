@@ -9,13 +9,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// เชื่อมต่อ DB โดยตรง
-$pdo = null;
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=pawland;charset=utf8', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) { $pdo = null; }
+require_once 'connect.php';
 
 $user_id   = (int)$_SESSION['user_id'];
 $firstname = htmlspecialchars($_SESSION['firstname'] ?? '');

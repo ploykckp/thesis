@@ -32,16 +32,9 @@ if ($place_id <= 0) {
 }
 
 // ── เชื่อมต่อ DB ──
-try {
-    $pdo = new PDO(
-        'mysql:host=localhost;dbname=pawland;charset=utf8mb4',
-        'root',
-        ''
-    );
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    send_json(['success' => false, 'message' => 'DB error: ' . $e->getMessage()]);
+require_once 'connect.php';
+if (!$pdo) {
+    send_json(['success' => false, 'message' => 'DB connection failed']);
 }
 
 // ── Toggle favorite ──
