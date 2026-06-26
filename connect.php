@@ -1,12 +1,15 @@
 <?php
-$hostname = 'db.ipgypgrozugtimoyyoua.supabase.co';
-$username = 'postgres';
-$password = 'fe-+s,#KRhSE5?d';
-$database = 'postgres';
+// อ่านค่าจาก Environment Variables (Railway/hosting)
+// ถ้าไม่มี ENV ให้ใช้ค่า fallback สำหรับ local dev
+$hostname = getenv('DB_HOST')     ?: 'db.ipgypgrozugtimoyyoua.supabase.co';
+$username = getenv('DB_USER')     ?: 'postgres';
+$password = getenv('DB_PASSWORD') ?: 'fe-+s,#KRhSE5?d'; // ← ใส่รหัสจริงสำหรับ local
+$database = getenv('DB_NAME')     ?: 'postgres';
+$port     = getenv('DB_PORT')     ?: '5432';
 
 try {
     $pdo = new PDO(
-        "pgsql:host=$hostname;port=5432;dbname=$database;sslmode=require",
+        "pgsql:host=$hostname;port=$port;dbname=$database;sslmode=require",
         $username,
         $password
     );
@@ -16,4 +19,6 @@ try {
     $pdo = null;
     error_log("PDO failed: " . $e->getMessage());
 }
+
+$connect = null;
 ?>
