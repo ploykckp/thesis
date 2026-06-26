@@ -4,12 +4,7 @@
 // ================================================
 session_start();
 
-$pdo = null;
-try {
-    $pdo = new PDO('mysql:host=pawland.infinityfree.com;dbname=if0_42221064_pawland;charset=utf8', 'if0_42221064', 'OcW4q1oezXn7DJ');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) { $pdo = null; }
+require_once 'connect.php';
 
 $id = (int)($_GET['place_id'] ?? 0);
 if (!$id) { header('Location: Search.php'); exit; }
