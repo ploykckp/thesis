@@ -1,40 +1,36 @@
 <?php
-// ============================================================
-// Cloudinary Configuration for Pawland
-// ============================================================
 define('CLOUDINARY_CLOUD_NAME', getenv('CLOUDINARY_CLOUD_NAME') ?: 'damzkmceb');
 define('CLOUDINARY_API_KEY',    getenv('CLOUDINARY_API_KEY')    ?: '617235175595546');
 define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: '1ltDguKSSDgr7o82oyXAIuEnuCY');
-define('CLOUDINARY_UPLOAD_PRESET', ''); // optional unsigned preset
 
-// Base upload URL
 define('CLOUDINARY_UPLOAD_URL',
     'https://api.cloudinary.com/v1_1/' . CLOUDINARY_CLOUD_NAME . '/image/upload');
 
-// ============================================================
-// Upload image to Cloudinary and return secure_url
-// $filePath  : absolute local path to the file
-// $folder    : Cloudinary folder, e.g. 'pawland/places'
-// Returns    : secure_url string, or false on failure
-// ============================================================
+function cloudinarySignature(array $params): string
+{
+    ksort($params);
+    // build param string manually (ไม่ encode /)
+    $parts = [];
+    foreach ($params as $k => $v) {
+        $parts[] = $k . '=' . $v;
+    }
+    $paramStr = implode('&', $parts);
+    return sha1($paramStr . CLOUDINARY_API_SECRET);
+}
+
 function cloudinaryUpload(string $filePath, string $folder = 'pawland'): string|false
 {
     $timestamp = time();
-    $params    = [
+    $params    = ['folder' => $folder, 'timestamp' => $timestamp];
+    $signature = cloudinarySignature($params);
+
+    $postFields = [
         'folder'    => $folder,
         'timestamp' => $timestamp,
-    ];
-
-    // Build signature
-    ksort($params);
-    $paramStr  = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-    $signature = sha1($paramStr . CLOUDINARY_API_SECRET);
-
-    $postFields = array_merge($params, [
-        'file'      => new CURLFile($filePath),
         'api_key'   => CLOUDINARY_API_KEY,
         'signature' => $signature,
-    ]);
+        'file'      => new CURLFile($filePath),
+    ];
 
     $ch = curl_init(CLOUDINARY_UPLOAD_URL);
     curl_setopt_array($ch, [
@@ -56,26 +52,19 @@ function cloudinaryUpload(string $filePath, string $folder = 'pawland'): string|
     return $data['secure_url'] ?? false;
 }
 
-// ============================================================
-// Upload from a URL (for Google Photos already on the web)
-// ============================================================
 function cloudinaryUploadFromUrl(string $remoteUrl, string $folder = 'pawland'): string|false
 {
     $timestamp = time();
-    $params    = [
+    $params    = ['folder' => $folder, 'timestamp' => $timestamp];
+    $signature = cloudinarySignature($params);
+
+    $postFields = [
         'folder'    => $folder,
         'timestamp' => $timestamp,
-    ];
-
-    ksort($params);
-    $paramStr  = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-    $signature = sha1($paramStr . CLOUDINARY_API_SECRET);
-
-    $postFields = array_merge($params, [
-        'file'      => $remoteUrl,
         'api_key'   => CLOUDINARY_API_KEY,
         'signature' => $signature,
-    ]);
+        'file'      => $remoteUrl,
+    ];
 
     $ch = curl_init(CLOUDINARY_UPLOAD_URL);
     curl_setopt_array($ch, [
@@ -97,9 +86,6 @@ function cloudinaryUploadFromUrl(string $remoteUrl, string $folder = 'pawland'):
     return $data['secure_url'] ?? false;
 }
 
-// ============================================================
-// Helper: is this string already a Cloudinary URL?
-// ============================================================
 function isCloudinaryUrl(string $url): bool
 {
     return str_contains($url, 'res.cloudinary.com/' . CLOUDINARY_CLOUD_NAME);
