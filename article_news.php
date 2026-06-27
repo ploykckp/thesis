@@ -529,7 +529,7 @@ $cfg += [
         <?php else: ?>
         <?php foreach ($newsList as $n):
             $reverse = !empty($n['reverse_layout']) ? ' reverse' : '';
-            $hlLines = !empty($n['highlights']) ? array_filter(array_map('trim', explode("\n", $n['highlights']))) : [];
+            $hlLines = !empty($n['highlights']) ? array_filter(array_map('trim', explode("\n", str_replace("\r", "", $n['highlights'])))) : [];
         ?>
         <div class="news-card">
             <div class="news-card-inner<?= $reverse ?>">
