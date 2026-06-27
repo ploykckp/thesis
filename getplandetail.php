@@ -4,7 +4,7 @@
 //  GET ?plan_id=X
 // ================================================
 session_start();
-require_once 'connect.php';
+require_once 'db.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -13,7 +13,7 @@ if (!$planId || !$pdo) { echo json_encode(['success' => false]); exit; }
 
 try {
     // trip header
-    $stmt = $pdo->prepare("SELECT * FROM `travel_plan` WHERE plan_id = :id LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM travel_plan WHERE plan_id = :id LIMIT 1");
     $stmt->execute([':id' => $planId]);
     $plan = $stmt->fetch();
 
@@ -24,8 +24,8 @@ try {
         SELECT tpp.*,
                COALESCE(pl.place_name, tpp.place_name) AS place_name,
                pl.place_image
-        FROM `travel_plan_place` tpp
-        LEFT JOIN `places` pl ON pl.place_id = tpp.place_id
+        FROM travel_plan_place tpp
+        LEFT JOIN places pl ON pl.place_id = tpp.place_id
         WHERE tpp.plan_id = :pid
         ORDER BY tpp.visit_date ASC, tpp.order_num ASC
     ");

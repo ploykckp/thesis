@@ -4,7 +4,7 @@
 //  POST JSON: { plan_id }
 // ================================================
 session_start();
-require_once 'connect.php';
+require_once 'db.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -22,9 +22,9 @@ if (!$planId) {
 try {
     $pdo->beginTransaction();
     // ลบ places ก่อน (ในกรณีไม่มี CASCADE)
-    $pdo->prepare("DELETE FROM `travel_plan_place` WHERE plan_id = ?")->execute([$planId]);
+    $pdo->prepare("DELETE FROM travel_plan_place WHERE plan_id = ?")->execute([$planId]);
     // ลบ plan
-    $pdo->prepare("DELETE FROM `travel_plan` WHERE plan_id = ?")->execute([$planId]);
+    $pdo->prepare("DELETE FROM travel_plan WHERE plan_id = ?")->execute([$planId]);
     $pdo->commit();
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {
