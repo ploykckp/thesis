@@ -514,7 +514,7 @@ async function viewPlan(id){
         var res=await fetch('getplandetail.php?plan_id='+id);
         var data=await res.json();
         if(!data.success){document.getElementById('mBody').innerHTML='<p style="color:#ef4444;padding:16px;">โหลดไม่สำเร็จ</p>';return;}
-        document.getElementById('mTitle').textContent='<span class="iconify" data-icon="mdi:map"></span> '+data.plan.trip_name;
+        document.getElementById('mTitle').innerHTML='<span class="iconify" data-icon="mdi:map" data-width="22"></span> '+esc(data.plan.trip_name);
         var places=data.places||[];
         var days=new Set(places.map(function(p){return p.visit_date||'?';})).size;
         document.getElementById('mSubTitle').textContent=places.length+' สถานที่ · '+days+' วัน';
