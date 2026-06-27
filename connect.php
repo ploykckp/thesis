@@ -1,8 +1,10 @@
 <?php
 // Session config
-ini_set("session.gc_maxlifetime", 86400);
-ini_set("session.cookie_lifetime", 86400);
-ini_set("session.cookie_samesite", "Lax");
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set("session.gc_maxlifetime", 86400);
+    ini_set("session.cookie_lifetime", 86400);
+    ini_set("session.cookie_samesite", "Lax");
+}
 // อ่านค่าจาก Environment Variables (Railway/hosting)
 // ถ้าไม่มี ENV ให้ใช้ค่า fallback สำหรับ local dev
 $hostname = getenv('DB_HOST')     ?: 'db.ipgypgrozugtimoyyoua.supabase.co';
