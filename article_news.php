@@ -535,7 +535,7 @@ $cfg += [
             <div class="news-card-inner<?= $reverse ?>">
                 <div class="news-card-img">
                     <?php if (!empty($n['image'])): ?>
-                    <img src="<?= htmlspecialchars($n['image']) ?>" alt="<?= htmlspecialchars($n['title']) ?>">
+                    <?php $_nimg = $n['image']; if (!preg_match('/^https?:\/\//', $_nimg)) { $_nimg = 'https://res.cloudinary.com/damzkmceb/image/upload/' . $_nimg; } ?><img src="<?= htmlspecialchars($_nimg) ?>" alt="<?= htmlspecialchars(stripslashes($n['title'])) ?>">
                     <?php else: ?>
                     <div style="width:100%;height:100%;background:#e8edf5;display:flex;align-items:center;justify-content:center;">
                         <span class="iconify" data-icon="mdi:newspaper-variant" data-width="48" style="color:#94a3b8"></span>
@@ -549,9 +549,9 @@ $cfg += [
                         <?= htmlspecialchars($n['badge']) ?>
                     </div>
                     <?php endif; ?>
-                    <h2 class="news-card-title"><?= htmlspecialchars($n['title']) ?></h2>
+                    <h2 class="news-card-title"><?= htmlspecialchars(stripslashes($n['title'])) ?></h2>
                     <?php if (!empty($n['description'])): ?>
-                    <p class="news-card-desc"><?= htmlspecialchars($n['description']) ?></p>
+                    <p class="news-card-desc"><?= htmlspecialchars(stripslashes($n['description'])) ?></p>
                     <?php endif; ?>
                     <?php if (!empty($hlLines)): ?>
                     <div class="news-card-highlights">
