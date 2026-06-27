@@ -118,15 +118,21 @@ function proxyImg(?string $url): string {
 
 $mainImg = !empty($place['place_image']) ? htmlspecialchars(proxyImg($place['place_image'])) : $fallback;
 
-// Build gallery from all_images field (comma-separated paths) + place_image as first
+// Build gallery from all_images field (JSON array or comma-separated) + place_image as first
 $gallery = [$mainImg];
 if (!empty($place['all_images'])) {
-    $extraImgs = array_filter(array_map('trim', explode(',', $place['all_images'])));
+    $decoded = json_decode($place['all_images'], true);
+    if (is_array($decoded)) {
+        $extraImgs = $decoded;
+    } else {
+        $extraImgs = array_filter(array_map('trim', explode(',', $place['all_images'])));
+    }
     foreach ($extraImgs as $img) {
-        $imgUrl = htmlspecialchars(proxyImg($img));
-        // ถ้าเป็น path สัมพัทธ์ให้เติม prefix, ถ้าเป็น URL เต็มใช้ตรงๆ
-        if (!preg_match('/^https?:\/\//', $img)) {
-            $imgUrl = htmlspecialchars(ltrim($img, '/'));
+        if (empty($img)) continue;
+        if (preg_match('/^https?:\/\//', $img)) {
+            $imgUrl = htmlspecialchars($img);
+        } else {
+            $imgUrl = htmlspecialchars(proxyImg($img));
         }
         if ($imgUrl !== $mainImg) {
             $gallery[] = $imgUrl;
