@@ -4,7 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: form-login.php?auth=required');
     exit;
 }
-require_once 'db.php';
+require_once 'connect.php';
 
 // Load ALL pets for this user
 $pets = [];
