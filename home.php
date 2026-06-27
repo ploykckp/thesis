@@ -79,7 +79,7 @@ function proxyImg(?string $url): string {
                 <img src="logo.png" alt="Logo" width="136" height="136">
             </div>
             <nav class="nav">
-                <a href="home.php" class="nav-link">หน้าแรก</a>
+                <a href="home.php" class="nav-link nav-link--active">หน้าแรก</a>
                 <a href="plantrip.php" class="nav-link">แผนเที่ยว</a>
                 <a href="petinfo.php" class="nav-link">ข้อมูลสัตว์เลี้ยง</a>
                 <a href="nearme.php" class="nav-link">ใกล้ฉัน</a>
