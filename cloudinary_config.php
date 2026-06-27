@@ -1,7 +1,7 @@
 <?php
 define('CLOUDINARY_CLOUD_NAME', getenv('CLOUDINARY_CLOUD_NAME') ?: 'damzkmceb');
 define('CLOUDINARY_API_KEY',    getenv('CLOUDINARY_API_KEY')    ?: '617235175595546');
-define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: '1ltDguKSSDgr7o82oyXAIuEnuCY');
+define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: '1ItDguKSSDgr7o82oyXAluEnuCY');
 
 define('CLOUDINARY_UPLOAD_URL',
     'https://api.cloudinary.com/v1_1/' . CLOUDINARY_CLOUD_NAME . '/image/upload');
@@ -9,13 +9,9 @@ define('CLOUDINARY_UPLOAD_URL',
 function cloudinarySignature(array $params): string
 {
     ksort($params);
-    // build param string manually (ไม่ encode /)
     $parts = [];
-    foreach ($params as $k => $v) {
-        $parts[] = $k . '=' . $v;
-    }
-    $paramStr = implode('&', $parts);
-    return sha1($paramStr . CLOUDINARY_API_SECRET);
+    foreach ($params as $k => $v) $parts[] = "$k=$v";
+    return sha1(implode('&', $parts) . CLOUDINARY_API_SECRET);
 }
 
 function cloudinaryUpload(string $filePath, string $folder = 'pawland'): string|false
@@ -38,6 +34,7 @@ function cloudinaryUpload(string $filePath, string $folder = 'pawland'): string|
         CURLOPT_POSTFIELDS     => $postFields,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT        => 60,
+        CURLOPT_SSL_VERIFYPEER => false,
     ]);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -72,6 +69,7 @@ function cloudinaryUploadFromUrl(string $remoteUrl, string $folder = 'pawland'):
         CURLOPT_POSTFIELDS     => $postFields,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT        => 60,
+        CURLOPT_SSL_VERIFYPEER => false,
     ]);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
