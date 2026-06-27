@@ -1,7 +1,7 @@
 <?php
 // savepet.php — INSERT new pet (always adds, never updates)
 session_start();
-require_once 'db.php';
+require_once 'connect.php';
 
 header('Content-Type: application/json; charset=utf-8');
 

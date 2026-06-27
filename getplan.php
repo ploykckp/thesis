@@ -3,7 +3,7 @@
 //  getplans.php — ดึงรายการ travel_plan ทั้งหมด
 // ================================================
 session_start();
-require_once 'db.php';
+require_once 'connect.php';
 
 header('Content-Type: application/json; charset=utf-8');
 

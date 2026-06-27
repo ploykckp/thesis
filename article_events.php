@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';   // เชื่อม PDO เหมือนไฟล์อื่นๆ
+require_once 'connect.php';   // เชื่อม PDO เหมือนไฟล์อื่นๆ
 
 // ดึงอีเวนต์จาก DB เฉพาะที่ published
 $events = [];
