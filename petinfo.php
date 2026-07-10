@@ -535,8 +535,8 @@ function openFormModal(petId) {
     const p = petId ? ALL_PETS.find(x => x.pet_id == petId) : null;
     const uid = 'fm'; // unique prefix for form inputs
 
-    document.getElementById('formModalTitle').textContent =
-        p ? `<span class="iconify" data-icon="mdi:pencil"></span> แก้ไขข้อมูล: ${p.pet_name}` : 'เพิ่มสัตว์เลี้ยง';
+    document.getElementById('formModalTitle').innerHTML =
+        p ? `<span class="iconify" data-icon="mdi:pencil"></span> แก้ไขข้อมูล: ${escapeHtml(p.pet_name)}` : 'เพิ่มสัตว์เลี้ยง';
 
     const gSel = `${uid}Gender`, brSel = `${uid}Breed`;
     const genderVal = p ? (p.pet_gender === 'male' ? 'เพศชาย' : 'เพศหญิง') : '';
@@ -841,9 +841,15 @@ function formatThaiDate(dateStr) {
     return `${d.getDate()} ${thMonths[d.getMonth()]} ${d.getFullYear() + 543}`;
 }
 
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
 function showToast(msg, type) {
     const t = document.getElementById('petToast');
-    t.textContent = msg;
+    t.innerHTML = msg;
     t.className = 'pet-toast ' + (type === 'error' ? 'te' : 'ts') + ' show';
     clearTimeout(t._t);
     t._t = setTimeout(() => t.classList.remove('show'), 2800);
