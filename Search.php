@@ -207,7 +207,10 @@ if ($search && $category_filter) {
             <div class="logo">
                 <img src="logo.png" alt="Logo" width="136" height="136">
             </div>
-            <nav class="nav">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="เปิดเมนู" aria-expanded="false" onclick="toggleMobileNav()">
+                <span class="iconify" data-icon="mdi:menu" data-width="28" id="hamburgerIcon"></span>
+            </button>
+            <nav class="nav" id="mainNav">
                 <a href="home.php" class="nav-link">หน้าแรก</a>
                 <a href="plantrip.php" class="nav-link">แผนเที่ยว</a>
                 <a href="petinfo.php" class="nav-link">ข้อมูลสัตว์เลี้ยง</a>
@@ -399,6 +402,32 @@ if ($search && $category_filter) {
         if (e.key === 'Enter') {
             e.preventDefault();
             document.getElementById('searchForm').submit();
+        }
+    });
+
+    // ── Hamburger menu toggle (mobile / tablet) ──
+    function toggleMobileNav() {
+        const nav = document.getElementById('mainNav');
+        const btn = document.getElementById('hamburgerBtn');
+        const icon = document.getElementById('hamburgerIcon');
+        const isOpen = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        icon.setAttribute('data-icon', isOpen ? 'mdi:close' : 'mdi:menu');
+    }
+
+    document.querySelectorAll('#mainNav .nav-link').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('mainNav').classList.remove('nav-open');
+            document.getElementById('hamburgerBtn').setAttribute('aria-expanded', 'false');
+            document.getElementById('hamburgerIcon').setAttribute('data-icon', 'mdi:menu');
+        });
+    });
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 992) {
+            document.getElementById('mainNav').classList.remove('nav-open');
+            document.getElementById('hamburgerBtn').setAttribute('aria-expanded', 'false');
+            document.getElementById('hamburgerIcon').setAttribute('data-icon', 'mdi:menu');
         }
     });
 </script>

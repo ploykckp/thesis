@@ -892,6 +892,18 @@ body {
     }
 
     .category-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .category-card {
+        padding: 16px 8px;
+        aspect-ratio: auto;
+        min-height: 100px;
+    }
+
+    .category-icon .iconify {
+        width: 28px !important;
+        height: 28px !important;
     }
 }

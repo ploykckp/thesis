@@ -371,14 +371,30 @@
         font-size: 12px;
     }
 
+    .result-card {
+        min-height: 0;
+        align-items: stretch;
+    }
+
     .result-card-thumb {
         width: 100px;
         min-width: 100px;
         height: 100px;
+        margin-left: 0;
+    }
+
+    .result-card-body {
+        margin-top: 0;
+        padding: 12px 14px;
+        justify-content: center;
     }
 
     .result-card-name {
         font-size: 16px;
+    }
+
+    .result-card-location {
+        font-size: 13px;
     }
 
     .search-bar-section .search-container {
