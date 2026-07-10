@@ -677,11 +677,11 @@ async function delPlan(id){
     try{var res=await fetch('deleteplan.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan_id:id})});
     var data=await res.json();if(data.success){showToast('ลบแพลนแล้ว','success');loadSv();}else showToast('เกิดข้อผิดพลาด','error');}catch(e){showToast('เกิดข้อผิดพลาด','error');}
 }
-function openM(t,e){document.getElementById('mTitle').textContent=t;document.getElementById('mSubTitle').textContent='';document.getElementById('mBody').innerHTML='<div style="color:#94a3b8;padding:24px;text-align:center;">กำลังโหลด...</div>';document.getElementById('mBtns').innerHTML='';document.getElementById('mEditRow').style.display=e?'block':'none';document.getElementById('planModal').classList.add('open');}
+function openM(t,e){document.getElementById('mTitle').innerHTML=t;document.getElementById('mSubTitle').textContent='';document.getElementById('mBody').innerHTML='<div style="color:#94a3b8;padding:24px;text-align:center;">กำลังโหลด...</div>';document.getElementById('mBtns').innerHTML='';document.getElementById('mEditRow').style.display=e?'block':'none';document.getElementById('planModal').classList.add('open');}
 function closeModal(){document.getElementById('planModal').classList.remove('open');}
 document.getElementById('planModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 var _t;
-function showToast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type==='error'?'te':'ts')+' show';clearTimeout(_t);_t=setTimeout(function(){t.classList.remove('show');},2800);}
+function showToast(msg,type){var t=document.getElementById('toast');t.innerHTML=msg;t.className='toast '+(type==='error'?'te':'ts')+' show';clearTimeout(_t);_t=setTimeout(function(){t.classList.remove('show');},2800);}
 renderPP();loadSv();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
