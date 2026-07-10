@@ -1206,3 +1206,206 @@ body {
     color: #f59e0b;
     font-size: 20px;
 }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 992px) {
+    /* Sidebar becomes a horizontal top bar so no JS toggle is required */
+    body { flex-direction: column; }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 12px 16px;
+        overflow-x: auto;
+    }
+
+    .sidebar-logo {
+        width: auto;
+        margin-bottom: 0;
+        margin-right: 20px;
+        padding: 0;
+        flex-shrink: 0;
+    }
+
+    .sidebar-logo img,
+    .sidebar-logo-svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        width: auto;
+        flex: none;
+        gap: 4px;
+        overflow-x: auto;
+    }
+
+    .nav-item {
+        padding: 8px 14px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .nav-item.active {
+        margin: 0 4px;
+        width: auto;
+        padding: 8px 14px;
+    }
+
+    .nav-item .nav-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .nav-item-add {
+        margin: 0 4px;
+        width: auto;
+        padding: 8px 14px;
+        white-space: nowrap;
+    }
+
+    .sidebar-logout {
+        width: auto;
+        border-top: none;
+        border-left: 1px solid rgba(255,255,255,0.1);
+        padding-top: 0;
+        padding-left: 12px;
+        margin-top: 0;
+        margin-left: 8px;
+        flex-shrink: 0;
+    }
+
+    .logout-btn {
+        padding: 8px 14px;
+        white-space: nowrap;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 24px 20px;
+    }
+
+    .dashboard-stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-group-numbers {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .stat-sub {
+        border-right: none;
+        margin-right: 0;
+        padding-right: 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(18,52,81,0.2);
+        width: 100%;
+    }
+
+    .stat-sub:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .preview-info-grid { grid-template-columns: 1fr; }
+    .lat-lng-row       { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .main-content { padding: 20px 16px; }
+
+    .form-card { padding: 24px 20px; }
+
+    .page-title { font-size: 22px; }
+
+    .stat-card-number,
+    .stat-sub-number { font-size: 48px; }
+
+    .stat-card,
+    .stat-group,
+    .chart-card { padding: 20px 24px; }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-actions { flex-wrap: wrap; width: 100%; }
+
+    .search-box { flex: 1; }
+    .search-box input { width: 100%; }
+
+    .table-header,
+    .table-row {
+        grid-template-columns: 60px 1fr 120px;
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+
+    .preview-gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        height: auto;
+    }
+
+    .preview-gallery-main {
+        grid-row: span 1;
+        grid-column: span 2;
+        height: 180px;
+    }
+
+    .preview-gallery-thumb { height: 90px; }
+
+    .modal-box { padding: 28px 24px; }
+
+    .radio-group { gap: 16px; flex-wrap: wrap; }
+
+    .form-card { max-width: 100%; }
+
+    .preview-page { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .stat-card,
+    .stat-group,
+    .chart-card { padding: 16px 18px; }
+
+    .stat-card-number,
+    .stat-sub-number { font-size: 36px; }
+
+    .stat-sub {
+        padding-right: 0;
+        margin-right: 0;
+    }
+
+    .table-header,
+    .table-row {
+        grid-template-columns: 50px 1fr 90px;
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+
+    .modal-box { padding: 24px 18px; }
+
+    .modal-icon { font-size: 48px; }
+
+    .preview-confirm-btn {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .preview-rating-score { font-size: 36px; }
+
+    .form-card, .stat-card, .stat-group, .chart-card {
+        border-radius: 14px;
+    }
+}

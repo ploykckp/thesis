@@ -711,7 +711,7 @@
 /* ══════════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════════ */
-@media (max-width: 900px) {
+@media (max-width: 992px) {
     .info-grid       { grid-template-columns: 1fr; }
     .gallery-grid    { grid-template-columns: 1fr; }
     .gallery-thumbs  { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
@@ -720,11 +720,20 @@
     .cal-months-row  { grid-template-columns: 1fr; gap: 16px; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .detail-name  { font-size: 26px; }
     .detail-tabs  { gap: 0; }
     .detail-tab   { padding: 10px 14px; font-size: 13px; }
     .calendar-popup { left: auto; right: 0; min-width: calc(100vw - 48px); }
     .rating-score { font-size: 40px; }
     .reviews-title { font-size: 26px; }
+}
+
+@media (max-width: 480px) {
+    .detail-name    { font-size: 22px; }
+    .gallery-thumbs { grid-template-columns: repeat(2, 1fr); }
+    .gallery-main img { height: 200px; }
+    .detail-tab     { padding: 8px 10px; font-size: 12px; }
+    .rating-score   { font-size: 32px; }
+    .reviews-title  { font-size: 22px; }
 }
