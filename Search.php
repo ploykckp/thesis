@@ -211,7 +211,7 @@ if ($search && $category_filter) {
                 <a href="home.php" class="nav-link">หน้าแรก</a>
                 <a href="plantrip.php" class="nav-link">แผนเที่ยว</a>
                 <a href="petinfo.php" class="nav-link">ข้อมูลสัตว์เลี้ยง</a>
-                <a href="#" class="nav-link">ใกล้ฉัน</a>
+                <a href="nearme.php" class="nav-link">ใกล้ฉัน</a>
             </nav>
             <div class="header-right">
                 <div class="language-switch">
