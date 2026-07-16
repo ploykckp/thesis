@@ -168,7 +168,6 @@ $provinces = [
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv4OB-oXGw-sb2tGpF5yPOyK2tchEc2y0&v=beta&libraries=places,marker&callback=initGoogleMaps" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="entre_dashboard.css">
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
@@ -1794,5 +1793,6 @@ function closePlaceDetail() {
 }
 </script>
 <script src="entre_dashboard.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv4OB-oXGw-sb2tGpF5yPOyK2tchEc2y0&v=beta&libraries=places,marker&callback=initGoogleMaps" async defer></script>
 </body>
 </html>
