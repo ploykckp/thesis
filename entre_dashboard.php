@@ -1793,6 +1793,6 @@ function closePlaceDetail() {
 }
 </script>
 <script src="entre_dashboard.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv4OB-oXGw-sb2tGpF5yPOyK2tchEc2y0&v=beta&libraries=places,marker&callback=initGoogleMaps" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3H13UP43DsR6ED2NWaQXK9VaUqSKcCTA&v=beta&libraries=places,marker&callback=initGoogleMaps" async defer></script>
 </body>
 </html>
