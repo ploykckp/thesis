@@ -107,12 +107,13 @@ function proxyImg(?string $url): string {
         <section class="hero">
             <div class="hero-overlay">
                 <h1 class="hero-title">"เที่ยวได้ทุกที่.. ถ้ามีเพื่อนชี้สี่ขาอยู่ด้วย"</h1>
+                <?php if (!isset($_SESSION['user_id'])): ?>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary">ผู้ใช้ทั่วไป</button>
                     <a href="form-register.php">
                         <button class="btn btn-secondary">สมัครสมาชิก</button>
                     </a>
                 </div>
+                <?php endif; ?>
             </div>
         </section>
 
