@@ -441,7 +441,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             echo json_encode(['ok'=>true,'msg'=>'เพิ่มสถานที่สำเร็จ','place_id'=>$newId]);
-        } catch (PDOException $e) {
+        } catch (Throwable $e) {
             echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]);
         }
         exit;
