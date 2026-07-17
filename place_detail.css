@@ -713,8 +713,8 @@
 ══════════════════════════════════════════════ */
 @media (max-width: 992px) {
     .info-grid       { grid-template-columns: 1fr; }
-    .gallery-grid    { grid-template-columns: 1fr; }
-    .gallery-thumbs  { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
+    .gallery-grid    { grid-template-columns: 1fr; height: auto; overflow: visible; }
+    .gallery-thumbs  { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); height: 160px; }
     .gallery-main img { height: 260px; }
     .calendar-popup  { min-width: 320px; }
     .cal-months-row  { grid-template-columns: 1fr; gap: 16px; }
@@ -731,7 +731,7 @@
 
 @media (max-width: 480px) {
     .detail-name    { font-size: 22px; }
-    .gallery-thumbs { grid-template-columns: repeat(2, 1fr); }
+    .gallery-thumbs { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); height: 120px; }
     .gallery-main img { height: 200px; }
     .detail-tab     { padding: 8px 10px; font-size: 12px; }
     .rating-score   { font-size: 32px; }
