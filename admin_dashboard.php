@@ -5,6 +5,7 @@
 session_start();
 require_once 'connect.php';
 require_once 'cloudinary_config.php';
+require_once 'upload_handler.php';
 
 // Auth check — ต้องล็อกอินเป็น admin
 if (!isset($_SESSION['admin_id'])) {
@@ -48,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt = $pdo->prepare("UPDATE places SET status = :s, rejection_reason = :r, updated_at = NOW() WHERE place_id = :id");
             $stmt->execute([':s' => $status, ':r' => ($status === 'rejected' ? $reason : ''), ':id' => $place_id]);
             echo json_encode(['ok' => true]);
-        } catch (Throwable $e) {
+        } catch (PDOException $e) {
             echo json_encode(['ok' => false, 'msg' => $e->getMessage()]);
         }
         exit;
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt = $pdo->prepare("UPDATE account_entre SET approval_status = :s, rejection_reason = :r, updated_at = NOW() WHERE entre_id = :id");
             $stmt->execute([':s' => $status, ':r' => ($status === 'rejected' ? $reason : ''), ':id' => $entre_id]);
             echo json_encode(['ok' => true]);
-        } catch (Throwable $e) {
+        } catch (PDOException $e) {
             echo json_encode(['ok' => false, 'msg' => $e->getMessage()]);
         }
     }
@@ -88,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     trim($_POST['status']           ?? 'published'),
                 ]);
             echo json_encode(['ok'=>true,'id'=>(int)$stmt->fetchColumn()]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -103,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->execute([$k, trim($_POST[$k] ?? '')]);
             }
             echo json_encode(['ok'=>true]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -135,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $nid,
                 ]);
             echo json_encode(['ok'=>true]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -147,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if ($old && $old['image'] && str_starts_with($old['image'],'uploads/') && file_exists($old['image'])) unlink($old['image']);
             $pdo->prepare("DELETE FROM news WHERE id=?")->execute([$nid]);
             echo json_encode(['ok'=>true]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -169,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     isset($_POST['featured']) ? 1 : 0,
                 ]);
             echo json_encode(['ok'=>true,'id'=>(int)$stmt->fetchColumn()]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -202,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $eid,
                 ]);
             echo json_encode(['ok'=>true]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -214,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if ($old && $old['image'] && str_starts_with($old['image'],'uploads/') && file_exists($old['image'])) unlink($old['image']);
             $pdo->prepare("DELETE FROM events WHERE id=?")->execute([$eid]);
             echo json_encode(['ok'=>true]);
-        } catch (Throwable $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
+        } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
 
@@ -316,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->prepare('DELETE FROM place_views WHERE place_id=?')->execute([$pid]);
             $pdo->prepare('DELETE FROM places WHERE place_id=?')->execute([$pid]);
             echo json_encode(['ok'=>true]);
-        } catch (Throwable $e) {
+        } catch (PDOException $e) {
             echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]);
         }
         exit;
@@ -387,7 +388,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             echo json_encode(['ok'=>true,'msg'=>'บันทึกข้อมูลแล้ว']);
-        } catch (Throwable $e) {
+        } catch (PDOException $e) {
             echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]);
         }
         exit;
@@ -504,7 +505,7 @@ if ($pdo) {
         $entreCntRejected = (int)($entreRow['rejected'] ?? 0);
 
         // auto-add reg_docs column ถ้ายังไม่มี
-        try { $pdo->exec("ALTER TABLE account_entre ADD COLUMN reg_docs TEXT DEFAULT NULL"); } catch (Throwable $e) {}
+        try { $pdo->exec("ALTER TABLE account_entre ADD COLUMN reg_docs TEXT DEFAULT NULL"); } catch (PDOException $e) {}
 
         // all operators
         $operators = $pdo->query("SELECT * FROM account_entre ORDER BY entre_id DESC")->fetchAll();
@@ -570,7 +571,7 @@ if ($pdo) {
         }
         $userGrowth = $ugStmt->fetchAll();
         $totalUsersFiltered = (int)array_sum(array_column($userGrowth, 'cnt'));
-    } catch (Throwable $e) { /* silently skip chart */ }
+    } catch (PDOException $e) { /* silently skip chart */ }
 
     //  fetch reviews แยกออกมา ไม่ให้ outer catch กลืน 
     try {
@@ -586,7 +587,7 @@ if ($pdo) {
         $reviewPending  = array_filter($allReviews, fn($r) => $r['status'] === 'pending');
         $reviewApproved = array_filter($allReviews, fn($r) => $r['status'] === 'approved');
         $reviewRejected = array_filter($allReviews, fn($r) => $r['status'] === 'rejected');
-    } catch (Throwable $e) {
+    } catch (PDOException $e) {
         $reviewQueryError = $e->getMessage();
     }
 }
@@ -596,7 +597,7 @@ $newsList = [];
 if ($pdo) {
     try {
         $newsList = $pdo->query("SELECT * FROM news ORDER BY created_at DESC")->fetchAll();
-    } catch (Throwable $e) { $newsList = []; }
+    } catch (PDOException $e) { $newsList = []; }
 }
 
 // Fetch events list
@@ -604,7 +605,7 @@ $eventsList = [];
 if ($pdo) {
     try {
         $eventsList = $pdo->query("SELECT * FROM events ORDER BY date_start ASC")->fetchAll();
-    } catch (Throwable $e) { $eventsList = []; }
+    } catch (PDOException $e) { $eventsList = []; }
 }
 
 // Fetch news page config
@@ -613,7 +614,7 @@ if ($pdo) {
     try {
         $rows = $pdo->query("SELECT cfg_key, cfg_value FROM news_page_config")->fetchAll();
         foreach ($rows as $r) $pageCfg[$r['cfg_key']] = $r['cfg_value'];
-    } catch (Throwable $e) {}
+    } catch (PDOException $e) {}
 }
 $pageCfg += [
     'header_tag'              => 'ข่าวและความเคลื่อนไหว',
@@ -674,7 +675,7 @@ if ($pdo) {
                 $categoryData[$cat] = ['labels'=>[],'data'=>[],'total'=>0];
             }
         }
-    } catch (Throwable $e) { $categoryData = []; }
+    } catch (PDOException $e) { $categoryData = []; }
 }
 $categoryDataJson = json_encode($categoryData, JSON_UNESCAPED_UNICODE);
 
@@ -1356,7 +1357,7 @@ textarea.ap-input{resize:vertical}
         foreach ($imgPlaces as $p) {
           $imgGrouped[$p['province']][] = $p;
         }
-      } catch (Throwable $e) {}
+      } catch (PDOException $e) {}
     }
     $noImgCount = count(array_filter($imgPlaces, fn($p) => !$p['place_image']));
     ?>
