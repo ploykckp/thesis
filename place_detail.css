@@ -243,7 +243,8 @@
 ══════════════════════════════════════════════ */
 .gallery-grid {
     display: grid;
-    grid-template-columns: 3fr 2fr;   /* รูปใหญ่ 60% / thumb 40% */
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 420px;        /* กำหนดชัดเจน กัน height:100% ของลูกคำนวณผิดเป็น 2 เท่า */
     gap: 6px;
     border-radius: 16px;
     overflow: hidden;
@@ -713,7 +714,7 @@
 ══════════════════════════════════════════════ */
 @media (max-width: 992px) {
     .info-grid       { grid-template-columns: 1fr; }
-    .gallery-grid    { grid-template-columns: 1fr; height: auto; overflow: visible; }
+    .gallery-grid    { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; overflow: visible; }
     .gallery-thumbs  { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); height: 160px; }
     .gallery-main img { height: 260px; }
     .calendar-popup  { min-width: 320px; }
