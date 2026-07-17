@@ -75,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'add_news') {
         try {
             $image = handleImageUpload('news_image', 'pawland/news');
-            $pdo->prepare("INSERT INTO news (badge,title,description,highlights_title,highlights,source,image,reverse_layout,status) VALUES (?,?,?,?,?,?,?,?,?)")
-                ->execute([
+            $stmt = $pdo->prepare("INSERT INTO news (badge,title,description,highlights_title,highlights,source,image,reverse_layout,status) VALUES (?,?,?,?,?,?,?,?,?) RETURNING id");
+            $stmt->execute([
                     trim($_POST['badge']            ?? ''),
                     trim($_POST['title']            ?? ''),
                     trim($_POST['description']      ?? ''),
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     (int)($_POST['reverse_layout']  ?? 0),
                     trim($_POST['status']           ?? 'published'),
                 ]);
-            echo json_encode(['ok'=>true,'id'=>(int)$pdo->lastInsertId()]);
+            echo json_encode(['ok'=>true,'id'=>(int)$stmt->fetchColumn()]);
         } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
@@ -155,8 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'add_event') {
         try {
             $image = handleImageUpload('event_image', 'pawland/events');
-            $pdo->prepare("INSERT INTO events (title,date_start,date_end,location,description,tags,image,link_url,status,featured) VALUES (?,?,?,?,?,?,?,?,?,?)")
-                ->execute([
+            $stmt = $pdo->prepare("INSERT INTO events (title,date_start,date_end,location,description,tags,image,link_url,status,featured) VALUES (?,?,?,?,?,?,?,?,?,?) RETURNING id");
+            $stmt->execute([
                     trim($_POST['title']       ?? ''),
                     trim($_POST['date_start']   ?? '') ?: null,
                     trim($_POST['date_end']     ?? '') ?: null,
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     trim($_POST['status']       ?? 'published'),
                     isset($_POST['featured']) ? 1 : 0,
                 ]);
-            echo json_encode(['ok'=>true,'id'=>(int)$pdo->lastInsertId()]);
+            echo json_encode(['ok'=>true,'id'=>(int)$stmt->fetchColumn()]);
         } catch (PDOException $e) { echo json_encode(['ok'=>false,'msg'=>$e->getMessage()]); }
         exit;
     }
@@ -356,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(['ok'=>false,'msg'=>'กรุณากรอกชื่อสถานที่ ประเภท และจังหวัด']);
                 exit;
             }
-            $sets = implode(',', array_map(fn($k)=>"`$k`=?", array_keys($fields)));
+            $sets = implode(',', array_map(fn($k)=>"$k=?", array_keys($fields)));
             $vals = array_values($fields);
             $vals[] = $pid;
             $pdo->prepare("UPDATE places SET $sets, updated_at=NOW() WHERE place_id=?")->execute($vals);
@@ -417,11 +417,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(['ok'=>false,'msg'=>'กรุณากรอกชื่อสถานที่ ประเภท และจังหวัด']);
                 exit;
             }
-            $cols = implode(',', array_map(fn($k)=>"`$k`", array_keys($data)));
+            $cols = implode(',', array_map(fn($k)=>"$k", array_keys($data)));
             $phs  = implode(',', array_fill(0, count($data), '?'));
-            $stmt = $pdo->prepare("INSERT INTO places ($cols) VALUES ($phs)");
+            $stmt = $pdo->prepare("INSERT INTO places ($cols) VALUES ($phs) RETURNING place_id");
             $stmt->execute(array_values($data));
-            $newId = (int)$pdo->lastInsertId();
+            $newId = (int)$stmt->fetchColumn();
 
             $mainImage = ''; $allImages = [];
             if (!empty($_FILES['images']['name'][0])) {
