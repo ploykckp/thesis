@@ -16,35 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=pawland;charset=utf8mb4', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
+require_once __DIR__ . '/connect.php';
+require_once __DIR__ . '/cloudinary_config.php';
+if (!$pdo) {
     echo json_encode(['success' => false, 'message' => 'ไม่สามารถเชื่อมต่อฐานข้อมูล']);
     exit;
 }
-
-// Auto-create reviews table ถ้ายังไม่มี
-try {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS `reviews` (
-        `review_id` int(11) NOT NULL AUTO_INCREMENT,
-        `user_id` int(11) NOT NULL,
-        `place_id` int(11) NOT NULL,
-        `rating` int(11) NOT NULL,
-        `comment` text DEFAULT NULL,
-        `images` text DEFAULT NULL,
-        `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
-        `rejection_reason` varchar(255) DEFAULT NULL,
-        `rejection_note` text DEFAULT NULL,
-        `notified` tinyint(1) NOT NULL DEFAULT 0,
-        `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-        `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-        PRIMARY KEY (`review_id`),
-        KEY `idx_place_id` (`place_id`),
-        KEY `idx_user_id` (`user_id`),
-        KEY `idx_status` (`status`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
-} catch (PDOException $e) { /* table already exists */ }
 
 $user_id  = (int)$_SESSION['user_id'];
 $place_id = (int)($_POST['place_id'] ?? 0);
@@ -76,31 +53,25 @@ if ($dup->fetch()) {
     exit;
 }
 
-// บันทึกรีวิว + รูปภาพ
+// บันทึกรีวิว + รูปภาพ (upload ขึ้น Cloudinary แทนเก็บไฟล์ในเครื่อง)
 $imagePaths = [];
-if (!empty($_FILES['review_images'])) {
-    $uploadDir = 'uploads/reviews/';
-    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-
+if (!empty($_FILES['review_images']) && !empty($_FILES['review_images']['name'][0])) {
     $files = $_FILES['review_images'];
     $count = is_array($files['name']) ? count($files['name']) : 1;
     $count = min($count, 5); // จำกัด 5 รูป
 
     for ($i = 0; $i < $count; $i++) {
-        $tmpName = is_array($files['tmp_name']) ? $files['tmp_name'][$i] : $files['tmp_name'];
-        $origName = is_array($files['name']) ? $files['name'][$i] : $files['name'];
-        $error = is_array($files['error']) ? $files['error'][$i] : $files['error'];
+        $tmpName  = is_array($files['tmp_name']) ? $files['tmp_name'][$i] : $files['tmp_name'];
+        $origName = is_array($files['name'])     ? $files['name'][$i]     : $files['name'];
+        $error    = is_array($files['error'])    ? $files['error'][$i]    : $files['error'];
 
         if ($error !== UPLOAD_ERR_OK) continue;
 
         $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
         if (!in_array($ext, ['jpg','jpeg','png','webp','gif'])) continue;
 
-        $newName = 'review_' . $user_id . '_' . time() . '_' . $i . '.' . $ext;
-        $dest = $uploadDir . $newName;
-        if (move_uploaded_file($tmpName, $dest)) {
-            $imagePaths[] = $dest;
-        }
+        $url = cloudinaryUpload($tmpName, 'pawland/reviews');
+        if ($url) $imagePaths[] = $url;
     }
 }
 
