@@ -235,7 +235,7 @@ if ($search && $category_filter) {
         <!-- ── SEARCH BAR (retains current search value) ── -->
         <section class="search-bar-section">
             <form method="GET" action="Search.php" id="searchForm">
-                <div class="search-container">
+                <div class="search-container" style="position:relative">
                     <input
                         type="text"
                         name="search"
@@ -257,6 +257,7 @@ if ($search && $category_filter) {
                     <button type="submit" class="search-btn">
                         <span class="iconify" data-icon="material-symbols:search-rounded" data-width="28" data-height="28"></span>
                     </button>
+                    <div id="liveSearchDropdown" class="live-search-dropdown"></div>
                 </div>
             </form>
         </section>
@@ -396,6 +397,7 @@ if ($search && $category_filter) {
 
 <?php include 'footer.php'; ?>
 
+<script src="live-search.js"></script>
 <script>
     // Submit on Enter key
     document.getElementById('searchInput').addEventListener('keydown', function(e) {

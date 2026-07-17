@@ -119,7 +119,7 @@ function proxyImg(?string $url): string {
         <!-- ══ SEARCH BAR — ส่งไป Search.php เมื่อกด Enter หรือปุ่มค้นหา ══ -->
         <section class="search-section">
             <form method="GET" action="Search.php" id="searchForm">
-                <div class="search-container">
+                <div class="search-container" style="position:relative">
                     <input
                         type="text"
                         name="search"
@@ -134,6 +134,7 @@ function proxyImg(?string $url): string {
                     <button type="submit" class="search-btn">
                         <span class="iconify" data-icon="material-symbols:search-rounded" data-width="28" data-height="28"></span>
                     </button>
+                    <div id="liveSearchDropdown" class="live-search-dropdown"></div>
                 </div>
             </form>
         </section>
@@ -438,6 +439,7 @@ function proxyImg(?string $url): string {
 <?php include 'footer.php'; ?>
 
 <script src="script.js"></script>
+<script src="live-search.js"></script>
 <script>
     // Submit search form on Enter key
     document.getElementById('searchInput').addEventListener('keydown', function(e) {
