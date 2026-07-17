@@ -290,6 +290,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // ปิด wrapper "if (action)" ตรงนี้ — บล็อกด้านล่าง (delete_place, fetch_place,
+    // update_place, add_place) ใช้ isset($_POST['xxx']) ของตัวเอง ไม่ได้พึ่ง 'action'
+    // เดิมโค้ดลืมปิดวงเล็บตรงนี้ ทำให้ 4 ฟีเจอร์นี้รันไม่ถึงเลย
+    }
 
     // delete place (admin only)
     if (isset($_POST['delete_place'])) {
@@ -446,8 +450,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     }
-
-}
 
 
 
