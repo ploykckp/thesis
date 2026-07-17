@@ -606,19 +606,35 @@ $provinces = [
 
             <div id="pet-details-section">
                 <div class="form-group">
-                    <label class="form-label" style="font-weight:600">ประเภทสัตว์เลี้ยงที่รับ</label>
-                    <select class="form-select" id="pet_type" onchange="toggleExoticInput(this.value)">
-                        <option value="">เลือกประเภทสัตว์ที่รับ</option>
-                        <option value="สุนัข (หมา)">สุนัข (หมา)</option>
-                        <option value="แมว">แมว</option>
-                        <option value="นก">นก</option>
-                        <option value="exotic pets ทุกประเภท">exotic pets ทุกประเภท</option>
-                        <option value="exotic pets บางประเภท">exotic pets บางประเภท (ระบุเพิ่มเติม)</option>
-                        <option value="สุนัข (หมา) และ แมว">สุนัข (หมา) และ แมว</option>
-                        <option value="รับทุกประเภทที่กำหนดมา">รับทุกประเภทที่กำหนดมา</option>
-                    </select>
-                    <div id="exotic_custom_wrap" style="display:none; margin-top:8px;">
-                        <input type="text" class="form-input form-input-sm" id="exotic_custom_input" placeholder="ระบุประเภท exotic pets ที่รับ">
+                    <label class="form-label" style="font-weight:600">ประเภทสัตว์เลี้ยงที่รับ (เลือกได้หลายประเภท)</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="pet-type-cb" value="สุนัข (หมา)">
+                            สุนัข (หมา)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="pet-type-cb" value="แมว">
+                            แมว
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="pet-type-cb" value="นก">
+                            นก
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="pet-type-cb" value="exotic pets ทุกประเภท">
+                            exotic pets ทุกประเภท
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="pet-type-cb" value="รับทุกประเภทที่กำหนดมา">
+                            รับทุกประเภทที่กำหนดมา
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pet_type_other_check" onchange="toggleOtherPetInput()">
+                            อื่นๆ (โปรดระบุ)
+                        </label>
+                    </div>
+                    <div id="pet_type_other_wrap" style="display:none; margin-top:8px;">
+                        <input type="text" class="form-input form-input-sm" id="pet_type_other_input" placeholder="ระบุประเภทสัตว์เลี้ยงที่รับเพิ่มเติม">
                     </div>
                 </div>
 
@@ -1054,19 +1070,29 @@ $provinces = [
             <!-- ── pet section (แสดงเมื่อรับสัตว์) ── -->
             <div id="ep_pet_section">
                 <div style="margin-bottom:16px;">
-                    <label class="ep-label">ประเภทสัตว์เลี้ยงที่รับ</label>
-                    <select id="ep_pet_type" class="ep-input" onchange="epToggleExotic(this.value)">
-                        <option value="">เลือกประเภทสัตว์ที่รับ</option>
-                        <option value="สุนัข (หมา)">สุนัข (หมา)</option>
-                        <option value="แมว">แมว</option>
-                        <option value="นก">นก</option>
-                        <option value="exotic pets ทุกประเภท">exotic pets ทุกประเภท</option>
-                        <option value="exotic pets บางประเภท">exotic pets บางประเภท (ระบุเพิ่มเติม)</option>
-                        <option value="สุนัข (หมา) และ แมว">สุนัข (หมา) และ แมว</option>
-                        <option value="รับทุกประเภทที่กำหนดมา">รับทุกประเภทที่กำหนดมา</option>
-                    </select>
-                    <div id="ep_exotic_wrap" style="display:none;margin-top:8px;">
-                        <input type="text" id="ep_exotic_custom" class="ep-input" placeholder="ระบุประเภท exotic pets ที่รับ">
+                    <label class="ep-label">ประเภทสัตว์เลี้ยงที่รับ (เลือกได้หลายประเภท)</label>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;">
+                            <input type="checkbox" class="ep-pet-type-cb" value="สุนัข (หมา)" style="accent-color:#123451;"> สุนัข (หมา)
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;">
+                            <input type="checkbox" class="ep-pet-type-cb" value="แมว" style="accent-color:#123451;"> แมว
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;">
+                            <input type="checkbox" class="ep-pet-type-cb" value="นก" style="accent-color:#123451;"> นก
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;">
+                            <input type="checkbox" class="ep-pet-type-cb" value="exotic pets ทุกประเภท" style="accent-color:#123451;"> exotic pets ทุกประเภท
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;">
+                            <input type="checkbox" class="ep-pet-type-cb" value="รับทุกประเภทที่กำหนดมา" style="accent-color:#123451;"> รับทุกประเภทที่กำหนดมา
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;">
+                            <input type="checkbox" id="ep_pet_type_other_check" style="accent-color:#123451;" onchange="epToggleOtherPet()"> อื่นๆ (โปรดระบุ)
+                        </label>
+                    </div>
+                    <div id="ep_pet_type_other_wrap" style="display:none;margin-top:8px;">
+                        <input type="text" id="ep_pet_type_other_input" class="ep-input" placeholder="ระบุประเภทสัตว์เลี้ยงที่รับเพิ่มเติม">
                     </div>
                 </div>
 
@@ -1192,9 +1218,18 @@ function openEditPlaceModal() {
     document.getElementById('ep_pet_section').style.display = petVal === 'yes' ? 'block' : 'none';
 
     // pet type
-    const ptSel = document.getElementById('ep_pet_type');
-    ptSel.value = pl.pet_type_allowed || '';
-    epToggleExotic(ptSel.value);
+    const savedPetTypes = (pl.pet_type_allowed || '').split(',').map(s => s.trim()).filter(Boolean);
+    const knownPetTypes = ['สุนัข (หมา)','แมว','นก','exotic pets ทุกประเภท','รับทุกประเภทที่กำหนดมา'];
+    document.querySelectorAll('.ep-pet-type-cb').forEach(cb => {
+        cb.checked = savedPetTypes.includes(cb.value);
+    });
+    const otherPetTypes = savedPetTypes.filter(v => !knownPetTypes.includes(v));
+    const otherCheck = document.getElementById('ep_pet_type_other_check');
+    if (otherCheck) {
+        otherCheck.checked = otherPetTypes.length > 0;
+        document.getElementById('ep_pet_type_other_input').value = otherPetTypes.join(', ');
+        epToggleOtherPet();
+    }
 
     // pet size checkboxes
     const sizes = (pl.pet_size_allowed || '').split(',').map(s => s.trim());
@@ -1322,9 +1357,9 @@ function epTogglePetSection() {
     document.getElementById('ep_pet_section').style.display = yes ? 'block' : 'none';
 }
 
-function epToggleExotic(val) {
-    document.getElementById('ep_exotic_wrap').style.display =
-        val === 'exotic pets บางประเภท' ? 'block' : 'none';
+function epToggleOtherPet() {
+    const checked = document.getElementById('ep_pet_type_other_check').checked;
+    document.getElementById('ep_pet_type_other_wrap').style.display = checked ? 'block' : 'none';
 }
 
 function epToggleAmenity(el, type) {
@@ -1342,9 +1377,13 @@ async function submitEditPlace() {
     const cats    = Array.from(document.querySelectorAll('input[name="ep_cat_cb"]:checked')).map(cb => cb.value);
     const sizes   = Array.from(document.querySelectorAll('input[name="ep_pet_size"]:checked')).map(cb => cb.value);
     const is24    = document.getElementById('ep_open24').checked;
-    const petType = document.getElementById('ep_pet_type').value;
-    const exotic  = document.getElementById('ep_exotic_custom')?.value.trim() || '';
-    const finalPetType = (petType === 'exotic pets บางประเภท' && exotic) ? exotic : petType;
+    const petTypesArr = Array.from(document.querySelectorAll('.ep-pet-type-cb:checked')).map(cb => cb.value);
+    const otherPetCheck = document.getElementById('ep_pet_type_other_check');
+    if (otherPetCheck && otherPetCheck.checked) {
+        const otherVal = document.getElementById('ep_pet_type_other_input')?.value.trim() || '';
+        if (otherVal) petTypesArr.push(otherVal);
+    }
+    const finalPetType = petTypesArr.join(', ');
 
     const fd = new FormData();
     fd.append('place_id',     pl.place_id);

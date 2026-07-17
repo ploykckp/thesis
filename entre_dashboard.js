@@ -184,12 +184,13 @@ function validateStep3() {
     }
 
     state.pet_allowed = petAllowed.value;
-    let petTypeVal = document.getElementById('pet_type').value;
-    if (petTypeVal === 'exotic pets บางประเภท') {
-        const custom = document.getElementById('exotic_custom_input');
-        if (custom && custom.value.trim()) petTypeVal = 'exotic pets บางประเภท: ' + custom.value.trim();
+    const petTypesArr = Array.from(document.querySelectorAll('.pet-type-cb:checked')).map(cb => cb.value);
+    const otherCheck = document.getElementById('pet_type_other_check');
+    if (otherCheck && otherCheck.checked) {
+        const otherVal = document.getElementById('pet_type_other_input')?.value.trim() || '';
+        if (otherVal) petTypesArr.push(otherVal);
     }
-    state.pet_type = petTypeVal;
+    state.pet_type = petTypesArr.join(', ');
     state.extra_cost = document.getElementById('extra_cost').value.trim();
 
     // Collect pet sizes
@@ -420,11 +421,14 @@ function resetForm() {
     const docFields = document.getElementById('dash_document_fields');
     if (docFields) docFields.innerHTML = '';
 
-    // Reset exotic pet input
-    const exoticWrap = document.getElementById('exotic_custom_wrap');
-    if (exoticWrap) exoticWrap.style.display = 'none';
-    const exoticInput = document.getElementById('exotic_custom_input');
-    if (exoticInput) exoticInput.value = '';
+    // Reset pet type checkboxes
+    document.querySelectorAll('.pet-type-cb').forEach(c => c.checked = false);
+    const otherWrap = document.getElementById('pet_type_other_wrap');
+    if (otherWrap) otherWrap.style.display = 'none';
+    const otherCheck = document.getElementById('pet_type_other_check');
+    if (otherCheck) otherCheck.checked = false;
+    const otherInput = document.getElementById('pet_type_other_input');
+    if (otherInput) otherInput.value = '';
 }
 
 /* ════════════════════════════════════════════
@@ -557,11 +561,12 @@ function initPreviewMap() {
 }
 
 /* ════════════════════════════════════════════
-   EXOTIC PET INPUT TOGGLE
+   OTHER PET TYPE INPUT TOGGLE
 ════════════════════════════════════════════ */
-function toggleExoticInput(value) {
-    const wrap = document.getElementById('exotic_custom_wrap');
-    if (wrap) wrap.style.display = value === 'exotic pets บางประเภท' ? 'block' : 'none';
+function toggleOtherPetInput() {
+    const checked = document.getElementById('pet_type_other_check').checked;
+    const wrap = document.getElementById('pet_type_other_wrap');
+    if (wrap) wrap.style.display = checked ? 'block' : 'none';
 }
 
 /* ════════════════════════════════════════════
