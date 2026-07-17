@@ -1939,7 +1939,7 @@ textarea.ap-input{resize:vertical}
 
       <!-- Save button -->
       <div style="display:flex;gap:10px;padding-top:8px;border-top:1px solid var(--border)">
-        <button onclick="saveEditPlace()"
+        <button onclick="saveEditPlace()" id="epSaveBtn"
                 style="flex:1;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-family:'Kanit',sans-serif;font-size:14px;font-weight:500;cursor:pointer"
                 onmouseover="this.style.background='var(--navy-dark)'" onmouseout="this.style.background='var(--navy)'">
           บันทึกการแก้ไข
@@ -3404,7 +3404,11 @@ async function saveEditPlace() {
   const catArr2 = [...document.querySelectorAll('.ep-cat-cb:checked')].map(el=>el.value);
   const cat  = catArr2.join(',');
   const prov = document.getElementById('ep_province').value;
-  if (!name || !cat || !prov) { showEpAlert('กรุณาเลือกประเภทอย่างน้อย 1 ประเภท','error'); return; }
+  if (!name || !cat || !prov) { showEpAlert('กรุณากรอกชื่อสถานที่ เลือกประเภทอย่างน้อย 1 ประเภท และเลือกจังหวัด','error'); return; }
+
+  const saveBtn = document.getElementById('epSaveBtn');
+  const originalText = saveBtn ? saveBtn.textContent : '';
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'กำลังบันทึก...'; saveBtn.style.opacity = '.6'; }
 
   const petTypes  = [...document.querySelectorAll('.ep-pet-type:checked')].map(el=>el.value).join(', ');
   const amenities = [...document.querySelectorAll('.ep-amenity:checked')].map(el=>el.value).join(',');
@@ -3451,7 +3455,10 @@ async function saveEditPlace() {
     } else {
       showEpAlert(data.msg || 'เกิดข้อผิดพลาด', 'error');
     }
-  } catch(e) { showEpAlert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้','error'); }
+  } catch(e) { showEpAlert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้: ' + e.message,'error'); }
+  finally {
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = originalText; saveBtn.style.opacity = '1'; }
+  }
 }
 
 function showEpAlert(msg, type) {
@@ -3462,6 +3469,7 @@ function showEpAlert(msg, type) {
   el.style.background = type==='success' ? '#d1fae5' : '#fee2e2';
   el.style.color      = type==='success' ? '#065f46' : '#991b1b';
   el.style.border     = '1px solid ' + (type==='success' ? '#a7f3d0' : '#fca5a5');
+  el.scrollIntoView({behavior:'smooth', block:'start'});
   if (type==='success') setTimeout(()=>el.style.display='none', 4000);
 }
 
