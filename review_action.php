@@ -14,10 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=pawland;charset=utf8mb4', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
+require_once __DIR__ . '/connect.php';
+if (!$pdo) {
     echo json_encode(['success' => false, 'message' => 'DB error']);
     exit;
 }
