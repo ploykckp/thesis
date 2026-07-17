@@ -791,9 +791,9 @@ td{padding:12px 15px;font-size:14px;color:var(--text);vertical-align:middle}
 .map-box:hover{background:#c8dff0}
 
 /*  PLACE DETAIL PANEL  */
-.place-detail-panel{position:fixed;top:50%;left:50%;width:560px;max-width:95vw;max-height:88vh;background:var(--card);box-shadow:0 12px 48px rgba(0,0,0,.25);border-radius:16px;z-index:202;overflow-y:auto;transform:translate(-50%,-50%) scale(.96);opacity:0;visibility:hidden;transition:transform .2s ease,opacity .2s ease,visibility .2s}
-.place-detail-panel.open{transform:translate(-50%,-50%) scale(1);opacity:1;visibility:visible}
-.pdp-header{background:var(--navy);padding:20px 24px;color:#fff;border-radius:16px 16px 0 0}
+.place-detail-panel{position:fixed;top:0;right:0;width:560px;max-width:95vw;height:100vh;background:var(--card);box-shadow:-4px 0 24px rgba(0,0,0,.15);z-index:202;overflow-y:auto;transform:translateX(100%);transition:transform .25s ease}
+.place-detail-panel.open{transform:translateX(0)}
+.pdp-header{background:var(--navy);padding:20px 24px;color:#fff}
 .pdp-header-top{display:flex;justify-content:space-between;align-items:flex-start}
 .pdp-title{font-size:17px;font-weight:600;margin-bottom:4px}
 .pdp-sub{font-size:12px;opacity:.6}
@@ -1464,10 +1464,18 @@ textarea.ap-input{resize:vertical}
                 <select class="ap-input" id="ap_province">
                   <option value="">-- เลือกจังหวัด --</option>
                   <?php
-                  $provinces = ['กรุงเทพมหานคร','เชียงใหม่','เชียงราย','ภูเก็ต','นครราชสีมา',
-                    'ประจวบคีรีขันธ์ (หัวหิน – ปราณบุรี)','ชลบุรี (พัทยา)','สมุทรปราการ',
-                    'ขอนแก่น','อุดรธานี','นครศรีธรรมราช','สงขลา','เชียงราย','ลำปาง',
-                    'พระนครศรีอยุธยา','กาญจนบุรี','สุราษฎร์ธานี','ระยอง','อื่นๆ'];
+                  $provinces = [
+                      'กรุงเทพมหานคร','กระบี่','กาญจนบุรี','กาฬสินธุ์','กำแพงเพชร','ขอนแก่น','จันทบุรี','ฉะเชิงเทรา',
+                      'ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย','เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก',
+                      'นครปฐม','นครพนม','นครราชสีมา','นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน',
+                      'บึงกาฬ','บุรีรัมย์','ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พระนครศรีอยุธยา',
+                      'พะเยา','พังงา','พัทลุง','พิจิตร','พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','ภูเก็ต',
+                      'มหาสารคาม','มุกดาหาร','แม่ฮ่องสอน','ยโสธร','ยะลา','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี',
+                      'ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล','สมุทรปราการ',
+                      'สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี','สุโขทัย','สุพรรณบุรี',
+                      'สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู','อ่างทอง','อำนาจเจริญ','อุดรธานี',
+                      'อุตรดิตถ์','อุทัยธานี','อุบลราชธานี',
+                  ];
                   foreach ($provinces as $pv): ?>
                   <option><?= htmlspecialchars($pv) ?></option>
                   <?php endforeach; ?>
@@ -1789,7 +1797,18 @@ textarea.ap-input{resize:vertical}
             <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px">จังหวัด <span style="color:var(--red)">*</span></label>
             <select class="ap-input" id="ep_province">
               <option value="">-- เลือกจังหวัด --</option>
-              <?php foreach (['กรุงเทพมหานคร','เชียงใหม่','เชียงราย','ภูเก็ต','นครราชสีมา','ประจวบคีรีขันธ์ (หัวหิน – ปราณบุรี)','ชลบุรี (พัทยา)','สมุทรปราการ','ขอนแก่น','อุดรธานี','นครศรีธรรมราช','สงขลา','ลำปาง','พระนครศรีอยุธยา','กาญจนบุรี','สุราษฎร์ธานี','ระยอง','อื่นๆ'] as $pv): ?>
+              <?php foreach ([
+                  'กรุงเทพมหานคร','กระบี่','กาญจนบุรี','กาฬสินธุ์','กำแพงเพชร','ขอนแก่น','จันทบุรี','ฉะเชิงเทรา',
+                  'ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย','เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก',
+                  'นครปฐม','นครพนม','นครราชสีมา','นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน',
+                  'บึงกาฬ','บุรีรัมย์','ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พระนครศรีอยุธยา',
+                  'พะเยา','พังงา','พัทลุง','พิจิตร','พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','ภูเก็ต',
+                  'มหาสารคาม','มุกดาหาร','แม่ฮ่องสอน','ยโสธร','ยะลา','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี',
+                  'ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล','สมุทรปราการ',
+                  'สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี','สุโขทัย','สุพรรณบุรี',
+                  'สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู','อ่างทอง','อำนาจเจริญ','อุดรธานี',
+                  'อุตรดิตถ์','อุทัยธานี','อุบลราชธานี',
+              ] as $pv): ?>
               <option><?= htmlspecialchars($pv) ?></option>
               <?php endforeach; ?>
             </select>
@@ -2411,7 +2430,7 @@ textarea.ap-input{resize:vertical}
 <script>
 const OPERATORS = <?= json_encode(array_values($operators), JSON_UNESCAPED_UNICODE) ?>;
 const REASONS   = <?= json_encode($REJECTION_REASONS, JSON_UNESCAPED_UNICODE) ?>;
-const PLACES_DATA = <?= json_encode(array_values(array_merge($pendingPlaces ?? [], $approvedPlaces ?? [])), JSON_UNESCAPED_UNICODE) ?>;
+const PLACES_DATA = <?= json_encode(array_values($approvedPlaces ?? []), JSON_UNESCAPED_UNICODE) ?>;
 
 //  Place Detail Panel 
 let currentPlaceId = null;
