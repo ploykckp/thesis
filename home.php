@@ -110,6 +110,9 @@ function proxyImg(?string $url): string {
                     <a href="form-register.php">
                         <button class="btn btn-secondary">สมัครสมาชิก</button>
                     </a>
+                    <a href="form-login.php">
+                        <button class="btn btn-primary">เข้าสู่ระบบ</button>
+                    </a>
                 </div>
                 <?php endif; ?>
             </div>
