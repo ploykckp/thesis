@@ -84,8 +84,6 @@ $placesJson = json_encode(array_map(function($p) {
             <div class="header-right">
                 <div class="language-switch">
                     <span class="lang-active">TH</span>
-                    <span class="lang-separator">|</span>
-                    <span class="lang-inactive">EN</span>
                 </div>
                 <?php include 'header_user_icon.php'; ?>
             </div>

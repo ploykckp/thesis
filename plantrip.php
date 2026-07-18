@@ -223,7 +223,7 @@ if (!isset($_SESSION['user_id'])) {
             <a href="nearme.php" class="nav-link">ใกล้ฉัน</a>
         </nav>
         <div class="header-right">
-            <div class="language-switch"><span class="lang-active">TH</span><span class="lang-separator">|</span><span class="lang-inactive">EN</span></div>
+            <div class="language-switch"><span class="lang-active">TH</span></div>
             <?php include 'header_user_icon.php'; ?>
         </div>
     </div></div>

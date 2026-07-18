@@ -349,8 +349,6 @@ $profile_src = (!empty($user['profile_images']) && $user['profile_images'] !== '
             <div class="header-right">
                 <div class="language-switch">
                     <span class="lang-active">TH</span>
-                    <span class="lang-separator">|</span>
-                    <span class="lang-inactive">EN</span>
                 </div>
                 <?php include 'header_user_icon.php'; ?>
             </div>
