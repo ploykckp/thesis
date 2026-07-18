@@ -542,29 +542,29 @@ if ($pdo) {
         $userGrowth = [];
 
         if ($filterMode === 'month' && $filterYear > 0 && $filterMonth > 0) {
-            // รายวัน: สถานที่ที่เพิ่มในแต่ละวันของเดือนที่เลือก
+            // รายวัน: สถานที่ที่เพิ่มในแต่ละวันของเดือนที่เลือก (ทุกสถานที่ ไม่ว่าแอดมินหรือผู้ประกอบการเป็นคนเพิ่ม)
             $ugStmt = $pdo->prepare(
-                "SELECT DATE_FORMAT(created_at,'%Y-%m-%d') AS ym, COUNT(*) AS cnt
+                "SELECT TO_CHAR(created_at,'YYYY-MM-DD') AS ym, COUNT(*) AS cnt
                  FROM places
-                 WHERE YEAR(created_at)=? AND MONTH(created_at)=?
+                 WHERE EXTRACT(YEAR FROM created_at)=? AND EXTRACT(MONTH FROM created_at)=?
                  GROUP BY ym ORDER BY ym ASC"
             );
             $ugStmt->execute([$filterYear, $filterMonth]);
         } elseif ($filterYear > 0) {
-            // รายเดือน: สถานที่ที่เพิ่มในแต่ละเดือนของปีที่เลือก
+            // รายเดือน: สถานที่ที่เพิ่มในแต่ละเดือนของปีที่เลือก (ทุกสถานที่ ไม่ว่าแอดมินหรือผู้ประกอบการเป็นคนเพิ่ม)
             $ugStmt = $pdo->prepare(
-                "SELECT DATE_FORMAT(created_at,'%Y-%m') AS ym, COUNT(*) AS cnt
+                "SELECT TO_CHAR(created_at,'YYYY-MM') AS ym, COUNT(*) AS cnt
                  FROM places
-                 WHERE YEAR(created_at)=?
+                 WHERE EXTRACT(YEAR FROM created_at)=?
                  GROUP BY ym ORDER BY ym ASC"
             );
             $ugStmt->execute([$filterYear]);
         } else {
-            // ไม่ได้เลือก: 6 เดือนล่าสุด
+            // ไม่ได้เลือก: 6 เดือนล่าสุด (ทุกสถานที่ ไม่ว่าแอดมินหรือผู้ประกอบการเป็นคนเพิ่ม)
             $ugStmt = $pdo->prepare(
-                "SELECT DATE_FORMAT(created_at,'%Y-%m') AS ym, COUNT(*) AS cnt
+                "SELECT TO_CHAR(created_at,'YYYY-MM') AS ym, COUNT(*) AS cnt
                  FROM places
-                 WHERE created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+                 WHERE created_at >= NOW() - INTERVAL '6 months'
                  GROUP BY ym ORDER BY ym ASC"
             );
             $ugStmt->execute([]);
